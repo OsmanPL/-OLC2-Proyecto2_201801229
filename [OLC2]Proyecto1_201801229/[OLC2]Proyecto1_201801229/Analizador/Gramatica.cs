@@ -433,7 +433,7 @@ namespace _OLC2_Proyecto1_201801229.Analizador
                 | TK_BREAK + TK_PYCOMA;
 
             //Funcion
-            NT_funcion.Rule = TK_FUNCTION + IDENTIFICADOR + NT_param + TK_DOSPUNTOS + NT_tipo + TK_PYCOMA + NT_instruccionesFP + TK_BEGIN + NT_sentencias + TK_END + TK_PYCOMA;
+            NT_funcion.Rule = TK_FUNCTION + IDENTIFICADOR + NT_param + TK_DOSPUNTOS + NT_tipo + TK_PYCOMA + NT_instrucciones + TK_BEGIN + NT_sentencias + TK_END + TK_PYCOMA;
 
             //Param
             NT_param.Rule = TK_PARIZQ + NT_parametros + TK_PARDER
@@ -458,7 +458,7 @@ namespace _OLC2_Proyecto1_201801229.Analizador
                 | NT_listaDeclaraciones;
 
             //Procedimiento
-            NT_procedimiento.Rule = TK_PROCEDURE + IDENTIFICADOR + NT_param + TK_PYCOMA + NT_instruccionesFP + TK_BEGIN + NT_sentencias + TK_END + TK_PYCOMA;
+            NT_procedimiento.Rule = TK_PROCEDURE + IDENTIFICADOR + NT_param + TK_PYCOMA + NT_instrucciones + TK_BEGIN + NT_sentencias + TK_END + TK_PYCOMA;
 
             //Write
             NT_write.Rule = TK_WRITE + TK_PARIZQ + NT_imprimir + TK_PARDER + NT_PYC;

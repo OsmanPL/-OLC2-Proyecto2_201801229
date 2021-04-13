@@ -50,7 +50,11 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
             {
                 foreach (Instruccion inst in Instrucciones)
                 {
-                    inst.ejecutar(tsFuncion);
+                    if (inst != null)
+                    {
+
+                        inst.ejecutar(tsFuncion);
+                    }
                 }
             }
             if (Sentencias!=null)
@@ -76,6 +80,10 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                         GeneradorAST.tablaCompleta.AddLast(s);
                     else GeneradorAST.tablaCompleta.setValor(s.Id, s.Valor);
             }
+            return null;
+        }
+        public Object traduccion()
+        {
             return null;
         }
     }

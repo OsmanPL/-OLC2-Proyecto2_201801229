@@ -61,7 +61,11 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
             {
                 foreach (Instruccion inst in instrucciones)
                 {
-                    inst.ejecutar(tsFuncion);
+                    if (inst != null)
+                    {
+
+                        inst.ejecutar(tsFuncion);
+                    }
                 }
             }
             if (sentencias != null)
@@ -153,6 +157,10 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                 GeneradorAST.listaErrores.AddLast(new Error("La funcion "+id+" no esta retornando nada",Error.TipoError.SEMANTICO,0,0)) ;
             }
             
+            return null;
+        }
+        public Object traduccion()
+        {
             return null;
         }
     }

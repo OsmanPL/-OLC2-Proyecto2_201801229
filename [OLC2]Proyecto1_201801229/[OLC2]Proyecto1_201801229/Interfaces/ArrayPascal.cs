@@ -128,5 +128,10 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
 
             return null;
         }
+
+        public Object traduccion()
+        {
+            return null;
+        }
     }
 }

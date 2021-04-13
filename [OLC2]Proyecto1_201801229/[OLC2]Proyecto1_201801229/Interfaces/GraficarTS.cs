@@ -24,5 +24,9 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
             Form1.Consola.Text += "\n";
             return null;
         }
+        public Object traduccion()
+        {
+            return null;
+        }
     }
 }

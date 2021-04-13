@@ -7,5 +7,6 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
     interface Instruccion
     {
         Object ejecutar(TablaSimbolos ts);
+        Object traduccion();
     }
 }
