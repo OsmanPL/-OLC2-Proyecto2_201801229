@@ -33,7 +33,7 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                             Object valor = dato.ejecutar(ts);
                             if (valor != null)
                             {
-                                Form1.Consola.Text += valor.ToString();
+                                
                             }
                         }
                     }
@@ -47,11 +47,10 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                             Object valor = dato.ejecutar(ts);
                             if (valor != null)
                             {
-                                Form1.Consola.Text += valor.ToString();
+                                
                             }
                         }
                     }
-                    Form1.Consola.Text += "\n";
                     break;
             }
             return null;

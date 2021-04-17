@@ -1,4 +1,5 @@
 ﻿using _OLC2_Proyecto1_201801229.Analizador;
+using _OLC2_Proyecto1_201801229.Estructuras;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -159,7 +160,7 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
             
             return null;
         }
-        public Object traduccion()
+        public Object traduccion(Estructura_Stack stack, Estructura_Heap heap, LinkedList<String> temporales, int sp, int hp, int t)
         {
             return null;
         }

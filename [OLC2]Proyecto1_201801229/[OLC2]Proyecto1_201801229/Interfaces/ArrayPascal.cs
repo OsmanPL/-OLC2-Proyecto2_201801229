@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using _OLC2_Proyecto1_201801229.Analizador;
+using _OLC2_Proyecto1_201801229.Estructuras;
 
 namespace _OLC2_Proyecto1_201801229.Interfaces
 {
@@ -129,7 +130,7 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
             return null;
         }
 
-        public Object traduccion()
+        public Object traduccion(Estructura_Stack stack, Estructura_Heap heap, LinkedList<String> temporales, int sp, int hp, int t)
         {
             return null;
         }

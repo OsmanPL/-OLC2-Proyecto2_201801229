@@ -46,7 +46,19 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
         }
         public Object traduccion()
         {
-            return null;
+            String encabezado = "";
+            String funciones = "";
+            String main = "";
+
+            encabezado += "#include <stdio.h> \n";
+            encabezado += "float Heap[100000];\n";
+            encabezado += "float Stack[100000];\n";
+            encabezado += "float SP; \n";
+            encabezado += "float HP;\n";
+
+
+
+            return encabezado + funciones + main;
         }
     }
 }

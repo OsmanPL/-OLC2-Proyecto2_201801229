@@ -8,6 +8,7 @@ using Irony;
 using Irony.Parsing;
 using System.Text;
 using _OLC2_Proyecto1_201801229.Interfaces;
+using _OLC2_Proyecto1_201801229.Estructuras;
 using Irony.Ast;
 using System.Windows.Forms;
 
@@ -21,6 +22,11 @@ namespace _OLC2_Proyecto1_201801229.Analizador
         public static LinkedList<ArrayPascal> arrays = new LinkedList<ArrayPascal>();
         public static LinkedList<Error> listaErrores = new LinkedList<Error>();
         public static TablaSimbolos tablaCompleta = new TablaSimbolos("Completa");
+        public Estructura_Heap heap;
+        public Estructura_Stack stack;
+        public Pila_Funcion pilaFuncion;
+        public LinkedList<String> temporales = new LinkedList<String>();
+        public int sp = 0, hp = 0, t=0;
         ParseTreeNode raiz = null;
 
         public ParseTreeNode retornarRaiz()
@@ -40,6 +46,13 @@ namespace _OLC2_Proyecto1_201801229.Analizador
             tablaCompleta = new TablaSimbolos("Completa");
             listaErrores = new LinkedList<Error>();
             arrays = new LinkedList<ArrayPascal>();
+            temporales = new LinkedList<String>();
+            stack.vaciarStack();
+            heap.vaciarHeap();
+            pilaFuncion.vaciarPila();
+            sp = 0; 
+            hp = 0;
+            t = 0;
 
             if (raiz != null && arbol.ParserMessages.Count == 0)
             {
@@ -128,10 +141,14 @@ namespace _OLC2_Proyecto1_201801229.Analizador
                 case "continue":
                     return new InstruccionContinue();
                 case "NT_funcion":
-                    funciones.AddLast(metodoFuncion(nodoActual.ChildNodes.ElementAt(0)));
+                    Funcion nuevaFuncion = metodoFuncion(nodoActual.ChildNodes.ElementAt(0));
+                    funciones.AddLast(nuevaFuncion);
+                    pilaFuncion.push(new Elemento_Funcion(nuevaFuncion,null));
                     return null;
                 case "NT_procedimiento":
-                    procedimientos.AddLast(metodoProcedmiento(nodoActual.ChildNodes.ElementAt(0)));
+                    Procedimiento nuevoProcedimiento = metodoProcedmiento(nodoActual.ChildNodes.ElementAt(0));
+                    procedimientos.AddLast(nuevoProcedimiento);
+                    pilaFuncion.push(new Elemento_Funcion(nuevoProcedimiento, null));
                     return null;
                 case "NT_write":
                     return metodoImprimir(nodoActual.ChildNodes.ElementAt(0), InstruccionImprimir.TipoImprimir.WRITE);
