@@ -31,11 +31,11 @@ namespace _OLC2_Proyecto1_201801229
         {
             this.components = new System.ComponentModel.Container();
             this.Codigo = new System.Windows.Forms.RichTextBox();
-            Consola = new System.Windows.Forms.RichTextBox();
+            this.Consola = new System.Windows.Forms.RichTextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.Ejecutar = new System.Windows.Forms.Button();
+            this.Compilar = new System.Windows.Forms.Button();
             this.Reportes = new System.Windows.Forms.Button();
             this.Cargar = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -58,14 +58,14 @@ namespace _OLC2_Proyecto1_201801229
             // 
             // Consola
             // 
-            Consola.BackColor = System.Drawing.Color.Black;
-            Consola.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            Consola.ForeColor = System.Drawing.Color.White;
-            Consola.Location = new System.Drawing.Point(602, 29);
-            Consola.Name = "Consola";
-            Consola.Size = new System.Drawing.Size(437, 302);
-            Consola.TabIndex = 2;
-            Consola.Text = "";
+            this.Consola.BackColor = System.Drawing.Color.Black;
+            this.Consola.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.Consola.ForeColor = System.Drawing.Color.White;
+            this.Consola.Location = new System.Drawing.Point(602, 29);
+            this.Consola.Name = "Consola";
+            this.Consola.Size = new System.Drawing.Size(437, 302);
+            this.Consola.TabIndex = 2;
+            this.Consola.Text = "";
             // 
             // label1
             // 
@@ -88,7 +88,7 @@ namespace _OLC2_Proyecto1_201801229
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.Ejecutar);
+            this.groupBox1.Controls.Add(this.Compilar);
             this.groupBox1.Controls.Add(this.Reportes);
             this.groupBox1.Controls.Add(this.Cargar);
             this.groupBox1.Location = new System.Drawing.Point(12, 357);
@@ -99,15 +99,15 @@ namespace _OLC2_Proyecto1_201801229
             this.groupBox1.Text = "Acciones";
             this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
             // 
-            // Ejecutar
+            // Compilar
             // 
-            this.Ejecutar.Location = new System.Drawing.Point(789, 57);
-            this.Ejecutar.Name = "Ejecutar";
-            this.Ejecutar.Size = new System.Drawing.Size(232, 52);
-            this.Ejecutar.TabIndex = 14;
-            this.Ejecutar.Text = "Ejecutar";
-            this.Ejecutar.UseVisualStyleBackColor = true;
-            this.Ejecutar.Click += new System.EventHandler(this.Ejecutar_Click);
+            this.Compilar.Location = new System.Drawing.Point(789, 57);
+            this.Compilar.Name = "Compilar";
+            this.Compilar.Size = new System.Drawing.Size(232, 52);
+            this.Compilar.TabIndex = 14;
+            this.Compilar.Text = "Compilar";
+            this.Compilar.UseVisualStyleBackColor = true;
+            this.Compilar.Click += new System.EventHandler(this.Ejecutar_Click);
             // 
             // Reportes
             // 
@@ -165,7 +165,7 @@ namespace _OLC2_Proyecto1_201801229
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label1);
-            this.Controls.Add(Consola);
+            this.Controls.Add(this.Consola);
             this.Controls.Add(this.Codigo);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -185,14 +185,14 @@ namespace _OLC2_Proyecto1_201801229
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button Ejecutar;
+        private System.Windows.Forms.Button Compilar;
         private System.Windows.Forms.Button Reportes;
         private System.Windows.Forms.Button Cargar;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Timer timer2;
-        public static System.Windows.Forms.RichTextBox Consola;
+        public System.Windows.Forms.RichTextBox Consola;
     }
 }
 

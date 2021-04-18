@@ -22,18 +22,18 @@ namespace _OLC2_Proyecto1_201801229.Analizador
         public static LinkedList<ArrayPascal> arrays = new LinkedList<ArrayPascal>();
         public static LinkedList<Error> listaErrores = new LinkedList<Error>();
         public static TablaSimbolos tablaCompleta = new TablaSimbolos("Completa");
-        public Estructura_Heap heap;
-        public Estructura_Stack stack;
-        public Pila_Funcion pilaFuncion;
+        public Estructura_Heap heap = new Estructura_Heap();
+        public Estructura_Stack stack = new Estructura_Stack();
+        public Pila_Funcion pilaFuncion = new Pila_Funcion();
         public LinkedList<String> temporales = new LinkedList<String>();
-        public int sp = 0, hp = 0, t=0;
+        public int sp = 0, hp = 0, t=0, l=0;
         ParseTreeNode raiz = null;
 
         public ParseTreeNode retornarRaiz()
         {
             return raiz;
         }
-        public void analizar(string codigo)
+        public void analizar(string codigo, RichTextBox consola)
         {
             Gramatica gramatica = new Gramatica();
             LanguageData lenguaje = new LanguageData(gramatica);
@@ -53,6 +53,7 @@ namespace _OLC2_Proyecto1_201801229.Analizador
             sp = 0; 
             hp = 0;
             t = 0;
+            l = 0;
 
             if (raiz != null && arbol.ParserMessages.Count == 0)
             {
@@ -71,6 +72,7 @@ namespace _OLC2_Proyecto1_201801229.Analizador
                 }
                 else
                 {
+                    consola.Text = AST.traduccion(stack,heap,temporales,ref sp,ref hp, ref t, ref l).ToString();
                     MessageBox.Show("Se ejecuto todo con exito", "Correcto");
                 }
             }

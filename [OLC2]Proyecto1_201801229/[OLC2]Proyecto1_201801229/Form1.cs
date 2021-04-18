@@ -59,7 +59,7 @@ namespace _OLC2_Proyecto1_201801229
         private void Ejecutar_Click(object sender, EventArgs e)
         {
             Consola.Text = "";
-            ejecutar.analizar(Codigo.Text);
+            ejecutar.analizar(Codigo.Text,Consola);
         }
 
         private void groupBox1_Enter(object sender, EventArgs e)

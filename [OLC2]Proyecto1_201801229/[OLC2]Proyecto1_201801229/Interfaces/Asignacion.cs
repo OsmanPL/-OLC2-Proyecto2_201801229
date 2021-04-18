@@ -173,9 +173,12 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
             }
             return null;
         }
-        public Object traduccion(Estructura_Stack stack, Estructura_Heap heap, LinkedList<String> temporales, int sp, int hp, int t)
+        public Object traduccion(Estructura_Stack stack, Estructura_Heap heap, LinkedList<String> temporales, ref int sp, ref int hp, ref int t, ref int l)
         {
-            return null;
+            String valores = valor.traduccion(stack,heap,temporales,ref sp, ref hp, ref t, ref l).ToString();
+            Elemento_Stack elemntoStack = stack.buscarElementoStack(id);
+            String retornar = valores + "Stack["+elemntoStack.ReferenciaStack+"]="+valores.Split("\n")[valores.Split("\n").Length -2].Split("=")[0].Split(";")[0]+";\n";
+            return retornar;
         }
     }
 }
