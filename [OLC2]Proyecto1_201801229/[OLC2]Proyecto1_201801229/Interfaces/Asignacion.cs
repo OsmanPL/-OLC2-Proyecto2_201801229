@@ -177,8 +177,30 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
         {
             String valores = valor.traduccion(stack,heap,temporales,ref sp, ref hp, ref t, ref l).ToString();
             Elemento_Stack elemntoStack = stack.buscarElementoStack(id);
-            String retornar = valores + "Stack["+elemntoStack.ReferenciaStack+"]="+valores.Split("\n")[valores.Split("\n").Length -2].Split("=")[0].Split(";")[0]+";\n";
-            return retornar;
+            if (elemntoStack.Tipo == Simbolo.TipoDato.STRING)
+            {
+                String retornar = "";
+                int refH = hp;
+                for (int i=0; i<valores.Length;i++)
+                {
+                    char c = valores[i];
+                    retornar += "Heap[(int)HP]=" + (int)c + ";\n";
+                    heap.agregarHeap(new Elemento_Heap((int)c, hp, null));
+                    retornar += "HP=HP+1;\n";
+                    hp++;
+                }
+                retornar += "Heap[(int)HP]=-1;\n";
+                heap.agregarHeap(new Elemento_Heap(-1, hp, null));
+                retornar += "HP=HP+1;\n";
+                hp++;
+                retornar += "Stack["+elemntoStack.ReferenciaStack+"]=" + refH + ";\n";
+                return retornar;
+            }
+            else
+            {
+                String retornar = valores + "Stack[" + elemntoStack.ReferenciaStack + "]=" + valores.Split("\n")[valores.Split("\n").Length - 2].Split("=")[0].Split(";")[0] + ";\n";
+                return retornar;
+            }
         }
     }
 }

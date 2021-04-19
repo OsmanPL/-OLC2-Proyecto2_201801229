@@ -143,13 +143,37 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
         {
 
             String valu = valor.traduccion(stack, heap, temporales, ref sp,ref hp,ref t,ref  l).ToString();
-            String[] valores = valu.Split("\n");
-            String temp = valores[valores.Length - 2].Split("=")[0].Split(";")[0];
-            String retornar = valu + "Stack[(int)SP]="+temp+";\nSP=SP+1;\n";
-            stack.agregarStack(new Elemento_Stack(id.ToString(),tipo,sp,null));
-            sp++;
-
-            return retornar;
+            if (tipo == Simbolo.TipoDato.STRING)
+            {
+                int refH = hp;
+                String retornar = "";
+                for (int i=0; i<valu.Length;i++)
+                {
+                    char c = valu[i];
+                    retornar += "Heap[(int)HP]=" + (int)c+";\n";
+                    heap.agregarHeap(new Elemento_Heap((int)c,hp,null));
+                    retornar += "HP=HP+1;\n";
+                    hp++;
+                }
+                retornar += "Heap[(int)HP]=-1;\n";
+                heap.agregarHeap(new Elemento_Heap(-1, hp, null));
+                retornar += "HP=HP+1;\n";
+                hp++;
+                retornar += "Stack[(int)SP]=" + refH + ";\nSP=SP+1;\n";
+                stack.agregarStack(new Elemento_Stack(id.ToString(), tipo, sp,refH,null));
+                sp++;
+                return retornar;
+            }
+            else
+            {
+                String[] valores = valu.Split("\n");
+                String temp = valores[valores.Length - 2].Split("=")[0].Split(";")[0];
+                String retornar = valu + "Stack[(int)SP]=" + temp + ";\nSP=SP+1;\n";
+                MessageBox.Show(tipo.ToString());
+                stack.agregarStack(new Elemento_Stack(id.ToString(), tipo, sp,0, null));
+                sp++;
+                return retornar;
+            }
         }
     }
 }

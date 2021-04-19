@@ -721,65 +721,115 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
             String retornar;
             switch (tipo)
             {
+                //Operaciones Relacionales
+                case Tipo_operacion.MAYOR_IGUAL_QUE:
+                    valorIzquierdo = operadorIzq.traduccion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
+                    valorDerecho = operadorDer.traduccion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
+                    retornar = valorIzquierdo + valorDerecho + "T" + t + "= " + valorIzquierdo.Split("\n")[valorIzquierdo.Split("\n").Length - 2].Split("=")[0].Split(";")[0] + ">=" + valorDerecho.Split("\n")[valorDerecho.Split("\n").Length - 2].Split("=")[0].Split(";")[0] + ";\n";
+
+                    temporales.AddLast("T" + t);
+                    t++;
+                    return retornar;
+                case Tipo_operacion.MAYOR_QUE:
+                    valorIzquierdo = operadorIzq.traduccion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
+                    valorDerecho = operadorDer.traduccion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
+                    retornar = valorIzquierdo + valorDerecho + "T" + t + "= " + valorIzquierdo.Split("\n")[valorIzquierdo.Split("\n").Length - 2].Split("=")[0].Split(";")[0] + ">" + valorDerecho.Split("\n")[valorDerecho.Split("\n").Length - 2].Split("=")[0].Split(";")[0] + ";\n";
+
+                    temporales.AddLast("T" + t);
+                    t++;
+                    return retornar;
+                case Tipo_operacion.MENOR_IGUAL_QUE:
+                    valorIzquierdo = operadorIzq.traduccion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
+                    valorDerecho = operadorDer.traduccion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
+                    retornar = valorIzquierdo + valorDerecho + "T" + t + "= " + valorIzquierdo.Split("\n")[valorIzquierdo.Split("\n").Length - 2].Split("=")[0].Split(";")[0] + "<=" + valorDerecho.Split("\n")[valorDerecho.Split("\n").Length - 2].Split("=")[0].Split(";")[0] + ";\n";
+
+                    temporales.AddLast("T" + t);
+                    t++;
+                    return retornar;
+                case Tipo_operacion.MENOR_QUE:
+                    valorIzquierdo = operadorIzq.traduccion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
+                    valorDerecho = operadorDer.traduccion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
+                    retornar = valorIzquierdo + valorDerecho + "T" + t + "= " + valorIzquierdo.Split("\n")[valorIzquierdo.Split("\n").Length - 2].Split("=")[0].Split(";")[0] + "<" + valorDerecho.Split("\n")[valorDerecho.Split("\n").Length - 2].Split("=")[0].Split(";")[0] + ";\n";
+
+                    temporales.AddLast("T" + t);
+                    t++;
+                    return retornar;
+                case Tipo_operacion.IGUAL:
+                    valorIzquierdo = operadorIzq.traduccion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
+                    valorDerecho = operadorDer.traduccion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
+                    retornar = valorIzquierdo + valorDerecho + "T" + t + "= " + valorIzquierdo.Split("\n")[valorIzquierdo.Split("\n").Length - 2].Split("=")[0].Split(";")[0] + "==" + valorDerecho.Split("\n")[valorDerecho.Split("\n").Length - 2].Split("=")[0].Split(";")[0] + ";\n";
+
+                    temporales.AddLast("T" + t);
+                    t++;
+                    return retornar;
+                case Tipo_operacion.DIFERENTE:
+                    valorIzquierdo = operadorIzq.traduccion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
+                    valorDerecho = operadorDer.traduccion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
+                    retornar = valorIzquierdo + valorDerecho + "T" + t + "= " + valorIzquierdo.Split("\n")[valorIzquierdo.Split("\n").Length - 2].Split("=")[0].Split(";")[0] + "!=" + valorDerecho.Split("\n")[valorDerecho.Split("\n").Length - 2].Split("=")[0].Split(";")[0] + ";\n";
+
+                    temporales.AddLast("T" + t);
+                    t++;
+                    return retornar;
+
                 //Operaciones Aritmeticaas
                 case Tipo_operacion.SUMA:
-                    valorIzquierdo = operadorIzq.traduccion(stack,heap,temporales,ref sp, ref hp, ref t, ref l).ToString();
-                    valorDerecho = operadorDer.traduccion(stack,  heap,  temporales, ref  sp, ref  hp, ref  t, ref  l).ToString();
-                    retornar = valorIzquierdo + valorDerecho + "T"+t+"= "+valorIzquierdo.Split("\n")[valorIzquierdo.Split("\n").Length - 2].Split("=")[0].Split(";")[0]+"+"+ valorDerecho.Split("\n")[valorDerecho.Split("\n").Length - 2].Split("=")[0].Split(";")[0] + ";\n";
-                    
-                    temporales.AddLast("T"+t);
+                    valorIzquierdo = operadorIzq.traduccion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
+                    valorDerecho = operadorDer.traduccion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
+                    retornar = valorIzquierdo + valorDerecho + "T" + t + "= " + valorIzquierdo.Split("\n")[valorIzquierdo.Split("\n").Length - 2].Split("=")[0].Split(";")[0] + "+" + valorDerecho.Split("\n")[valorDerecho.Split("\n").Length - 2].Split("=")[0].Split(";")[0] + ";\n";
+
+                    temporales.AddLast("T" + t);
                     t++;
                     return retornar;
                 case Tipo_operacion.RESTA:
-                    valorIzquierdo = operadorIzq.traduccion(stack,  heap,  temporales, ref  sp, ref  hp, ref  t, ref  l).ToString();
-                    valorDerecho = operadorDer.traduccion(stack,  heap,  temporales, ref  sp, ref  hp, ref  t, ref  l).ToString();
+                    valorIzquierdo = operadorIzq.traduccion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
+                    valorDerecho = operadorDer.traduccion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
                     retornar = valorIzquierdo + valorDerecho + "T" + t + "= " + valorIzquierdo.Split("\n")[valorIzquierdo.Split("\n").Length - 2].Split("=")[0].Split(";")[0] + "-" + valorDerecho.Split("\n")[valorDerecho.Split("\n").Length - 2].Split("=")[0].Split(";")[0] + ";\n";
-                    
+
                     temporales.AddLast("T" + t);
                     t++;
                     return retornar;
                 case Tipo_operacion.MULTIPLICACION:
-                    valorIzquierdo = operadorIzq.traduccion(stack,  heap,  temporales, ref  sp, ref  hp, ref  t, ref  l).ToString();
-                    valorDerecho = operadorDer.traduccion(stack,  heap,  temporales, ref  sp, ref  hp, ref  t, ref  l).ToString();
+                    valorIzquierdo = operadorIzq.traduccion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
+                    valorDerecho = operadorDer.traduccion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
                     retornar = valorIzquierdo + valorDerecho + "T" + t + "= " + valorIzquierdo.Split("\n")[valorIzquierdo.Split("\n").Length - 2].Split("=")[0].Split(";")[0] + "*" + valorDerecho.Split("\n")[valorDerecho.Split("\n").Length - 2].Split("=")[0].Split(";")[0] + ";\n";
                     temporales.AddLast("T" + t);
                     t++;
                     return retornar;
                 case Tipo_operacion.DIVISION:
-                    valorIzquierdo = operadorIzq.traduccion(stack,  heap,  temporales, ref  sp, ref  hp, ref  t, ref  l).ToString();
-                    valorDerecho = operadorDer.traduccion(stack,  heap,  temporales, ref  sp, ref  hp, ref  t, ref  l).ToString();
+                    valorIzquierdo = operadorIzq.traduccion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
+                    valorDerecho = operadorDer.traduccion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
                     retornar = valorIzquierdo + valorDerecho + "T" + t + "= " + valorIzquierdo.Split("\n")[valorIzquierdo.Split("\n").Length - 2].Split("=")[0].Split(";")[0] + "/" + valorDerecho.Split("\n")[valorDerecho.Split("\n").Length - 2].Split("=")[0].Split(";")[0] + ";\n";
-                    
+
                     temporales.AddLast("T" + t);
                     t++;
                     return retornar;
                 case Tipo_operacion.MODULAR:
-                    valorIzquierdo = operadorIzq.traduccion(stack,  heap,  temporales, ref  sp, ref  hp, ref  t, ref  l).ToString();
-                    valorDerecho = operadorDer.traduccion(stack,  heap,  temporales, ref  sp, ref  hp, ref  t, ref  l).ToString();
+                    valorIzquierdo = operadorIzq.traduccion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
+                    valorDerecho = operadorDer.traduccion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
                     retornar = valorIzquierdo + valorDerecho + "T" + t + "= (int)" + valorIzquierdo.Split("\n")[valorIzquierdo.Split("\n").Length - 2].Split("=")[0].Split(";")[0] + "% (int)" + valorDerecho.Split("\n")[valorDerecho.Split("\n").Length - 2].Split("=")[0].Split(";")[0] + ";\n";
-                    
+
                     temporales.AddLast("T" + t);
                     t++;
                     return retornar;
                 case Tipo_operacion.NEGATIVO:
-                    valorIzquierdo = operadorIzq.traduccion(stack,  heap,  temporales, ref  sp, ref  hp, ref  t, ref  l).ToString();
-                    
+                    valorIzquierdo = operadorIzq.traduccion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
+
                     retornar = valorIzquierdo + "T" + t + "= -" + valorIzquierdo.Split("\n")[valorIzquierdo.Split("\n").Length - 2].Split("=")[0].Split(";")[0] + ";\n";
-                    
+
                     temporales.AddLast("T" + t);
                     t++;
                     return retornar;
 
-
+                case Tipo_operacion.CONCAT:
+                    return operadorIzq.traduccion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString() + operadorDer.traduccion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
 
                 //Valores
                 case Tipo_operacion.NUMERO:
                     try
                     {
 
-                        MessageBox.Show("" + t);
-                        retornar = "T" + t + " = " + valor.ToString()+";\n";
-                        temporales.AddLast("T"+t);
+                        retornar = "T" + t + " = " + valor.ToString() + ";\n";
+                        temporales.AddLast("T" + t);
                         t++;
                         return retornar;
                     }
@@ -792,7 +842,7 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                     try
                     {
                         retornar = "T" + t + " = " + valor.ToString() + ";\n";
-                        
+
                         temporales.AddLast("T" + t);
                         t++;
                         return retornar;
@@ -807,16 +857,16 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                     {
                         if (Boolean.Parse(valor.ToString()))
                         {
-                            retornar = "T" + t + " = " + valor.ToString() + ";\n";
-                            
+                            retornar = "T" + t + " = 1;\n";
+
                             temporales.AddLast("T" + t);
                             t++;
                             return retornar;
                         }
                         else
                         {
-                            retornar = "T" + t + " = " + valor.ToString() + ";\n";
-                            
+                            retornar = "T" + t + " = 0;\n";
+
                             temporales.AddLast("T" + t);
                             t++;
                             return retornar;
@@ -839,10 +889,26 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                     }
                 case Tipo_operacion.IDENTIFICADOR:
                     Elemento_Stack elemntoStack = stack.buscarElementoStack(valor.ToString());
-                    retornar = "T" + t + "= Stack[" + elemntoStack.ReferenciaStack + "];\n";
-                    temporales.AddLast("T"+t);
-                    t++;
-                    return retornar;
+                    if (elemntoStack.Tipo == Simbolo.TipoDato.STRING)
+                    {
+                        retornar = "";
+                        int rh = elemntoStack.ReferenciaHeap;
+                        Elemento_Heap elemntoHeap = heap.buscarElementoHeap(rh);
+                        while (elemntoHeap.Valor != -1)
+                        {
+                            retornar += "" + (char)elemntoHeap.Valor;
+                            rh++;
+                            elemntoHeap = heap.buscarElementoHeap(rh);
+                        }
+                        return retornar;
+                    }
+                    else
+                    {
+                        retornar = "T" + t + "= Stack[" + elemntoStack.ReferenciaStack + "];\n";
+                        temporales.AddLast("T" + t);
+                        t++;
+                        return retornar;
+                    }
             }
             return null;
         }

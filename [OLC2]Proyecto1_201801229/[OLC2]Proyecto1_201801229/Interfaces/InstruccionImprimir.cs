@@ -94,7 +94,30 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                             String  ret = dato.traduccion(stack,heap,temporales,ref sp, ref hp, ref t, ref l).ToString();
                             String val = dato.retornarTipo();
                             Elemento_Stack elemntoStack = stack.buscarElementoStack(val);
-                            retornar += ret+"printf(\""+tipoImpresion(elemntoStack.Tipo)+"\","+imp(elemntoStack.Tipo)+ret.Split("\n")[ret.Split("\n").Length -2].Split("=")[0].Split(";")[0]+");\n";
+                            if (elemntoStack.Tipo == Simbolo.TipoDato.STRING)
+                            {
+                                retornar += "T"+t+"= SP;\n";
+                                String temp = "T"+t;
+                                temporales.AddLast("T"+t);
+                                t++;
+                                retornar += "SP="+elemntoStack.ReferenciaStack+";\n";
+                                retornar += "printString();\n";
+                                retornar += "SP="+temp+";\n";
+                            }
+                            else if (elemntoStack.Tipo == Simbolo.TipoDato.BOOLEAN)
+                            {
+                                retornar += "T" + t + "= SP;\n";
+                                String temp = "T" + t;
+                                temporales.AddLast("T" + t);
+                                t++;
+                                retornar += "SP=" + elemntoStack.ReferenciaStack + ";\n";
+                                retornar += "printBool();\n";
+                                retornar += "SP=" + temp + ";\n";
+                            }
+                            else
+                            {
+                                retornar += ret + "printf(\"" + tipoImpresion(elemntoStack.Tipo) + "\"," + imp(elemntoStack.Tipo) + ret.Split("\n")[ret.Split("\n").Length - 2].Split("=")[0].Split(";")[0] + ");\n";
+                            }                        
                         }
                     }
                     break;
@@ -107,8 +130,33 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                             String ret = dato.traduccion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
                             String val = dato.retornarTipo();
                             Elemento_Stack elemntoStack = stack.buscarElementoStack(val);
-                            retornar += ret + "printf(\"" + tipoImpresion(elemntoStack.Tipo) + "\","+ imp(elemntoStack.Tipo) + ret.Split("\n")[ret.Split("\n").Length - 2].Split("=")[0].Split(";")[0] + ");\n";
-                            retornar += "printf(\"%c\",(char)10);\n";
+                            if (elemntoStack.Tipo == Simbolo.TipoDato.STRING)
+                            {
+                                retornar += "T" + t + "= SP;\n";
+                                String temp = "T" + t;
+                                temporales.AddLast("T" + t);
+                                t++;
+                                retornar += "SP=" + elemntoStack.ReferenciaStack + ";\n";
+                                retornar += "printString();\n";
+                                retornar += "printf(\"%c\",(char)10);\n";
+                                retornar += "SP=" + temp + ";\n";
+                            }
+                            else if (elemntoStack.Tipo == Simbolo.TipoDato.BOOLEAN)
+                            {
+                                retornar += "T" + t + "= SP;\n";
+                                String temp = "T" + t;
+                                temporales.AddLast("T" + t);
+                                t++;
+                                retornar += "SP=" + elemntoStack.ReferenciaStack + ";\n";
+                                retornar += "printBool();\n";
+                                retornar += "printf(\"%c\",(char)10);\n";
+                                retornar += "SP=" + temp + ";\n";
+                            }
+                            else
+                            {
+                                retornar += ret + "printf(\"" + tipoImpresion(elemntoStack.Tipo) + "\"," + imp(elemntoStack.Tipo) + ret.Split("\n")[ret.Split("\n").Length - 2].Split("=")[0].Split(";")[0] + ");\n";
+                                retornar += "printf(\"%c\",(char)10);\n";
+                            }
                         }
                     }
                     break;
