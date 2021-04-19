@@ -138,7 +138,6 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                                 t++;
                                 retornar += "SP=" + elemntoStack.ReferenciaStack + ";\n";
                                 retornar += "printString();\n";
-                                retornar += "printf(\"%c\",(char)10);\n";
                                 retornar += "SP=" + temp + ";\n";
                             }
                             else if (elemntoStack.Tipo == Simbolo.TipoDato.BOOLEAN)
@@ -149,15 +148,14 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                                 t++;
                                 retornar += "SP=" + elemntoStack.ReferenciaStack + ";\n";
                                 retornar += "printBool();\n";
-                                retornar += "printf(\"%c\",(char)10);\n";
                                 retornar += "SP=" + temp + ";\n";
                             }
                             else
                             {
                                 retornar += ret + "printf(\"" + tipoImpresion(elemntoStack.Tipo) + "\"," + imp(elemntoStack.Tipo) + ret.Split("\n")[ret.Split("\n").Length - 2].Split("=")[0].Split(";")[0] + ");\n";
-                                retornar += "printf(\"%c\",(char)10);\n";
                             }
                         }
+                        retornar += "printf(\"%c\",(char)10);\n";
                     }
                     break;
             }
