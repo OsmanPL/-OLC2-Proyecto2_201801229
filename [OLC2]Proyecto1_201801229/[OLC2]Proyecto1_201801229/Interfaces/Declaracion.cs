@@ -167,8 +167,13 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
             else
             {
                 String[] valores = valu.Split("\n");
+                String retornar = "";
+                if (valu.Contains("T"))
+                {
+                    retornar += valu;
+                }
                 String temp = valores[valores.Length - 2].Split("=")[0].Split(";")[0];
-                String retornar = valu + "Stack[(int)SP]=" + temp + ";\nSP=SP+1;\n";
+                retornar +=  "Stack[(int)SP]=" + temp + ";\nSP=SP+1;\n";
                 MessageBox.Show(tipo.ToString());
                 stack.agregarStack(new Elemento_Stack(id.ToString(), tipo, sp,0, null));
                 sp++;
