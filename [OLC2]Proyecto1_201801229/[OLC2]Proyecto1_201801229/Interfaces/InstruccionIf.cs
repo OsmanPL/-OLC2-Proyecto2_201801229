@@ -110,7 +110,16 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                     {
                         if (linea.Equals(lineasOR[lineasOR.Length-2]))
                         {
-                            retornar += "if ("+linea+")goto "+verdadero+";\ngoto "+falsedad+";\n";
+                            if(j != condicionOr.Length - 1)
+                            {
+                                falso = "L" + l;
+                                l++;
+                                retornar += "if (" + linea + ")goto " + verdadero + ";\ngoto " + falso + ";\n";
+                            }
+                            else
+                            {
+                                retornar += "if (" + linea + ")goto " + verdadero + ";\ngoto " + falsedad + ";\n";
+                            }
                         }
                         else
                         {

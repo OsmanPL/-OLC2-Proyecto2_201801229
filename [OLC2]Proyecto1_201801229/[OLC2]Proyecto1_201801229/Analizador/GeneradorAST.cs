@@ -690,7 +690,7 @@ namespace _OLC2_Proyecto1_201801229.Analizador
             }
             else if (nodoActual.ChildNodes.Count == 7)
             {
-                return new InstruccionIf(metodoOperacion(nodoActual.ChildNodes.ElementAt(1)), Instrucciones(nodoActual.ChildNodes.ElementAt(3)), null, null);
+                return new InstruccionIf(metodoOperacion(nodoActual.ChildNodes.ElementAt(1)), Instrucciones(nodoActual.ChildNodes.ElementAt(4)), null, null);
             }
             else if (nodoActual.ChildNodes.Count == 6)
             {

@@ -198,7 +198,12 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
             }
             else
             {
-                String retornar = valores + "Stack[" + elemntoStack.ReferenciaStack + "]=" + valores.Split("\n")[valores.Split("\n").Length - 2].Split("=")[0].Split(";")[0] + ";\n";
+                String retornar = "";
+                if (valores.Contains("T"))
+                {
+                    retornar += valores;
+                }
+                retornar +=  "Stack[" + elemntoStack.ReferenciaStack + "]=" + valores.Split("\n")[valores.Split("\n").Length - 2].Split("=")[0].Split(";")[0] + ";\n";
                 return retornar;
             }
         }
