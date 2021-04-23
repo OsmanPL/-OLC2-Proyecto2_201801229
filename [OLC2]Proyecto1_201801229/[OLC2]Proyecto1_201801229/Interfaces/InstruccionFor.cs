@@ -115,7 +115,91 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
         }
         public Object traduccion(Estructura_Stack stack, Estructura_Heap heap, LinkedList<String> temporales, ref int sp, ref int hp, ref int t, ref int l)
         {
-            return null;
+            String retornar = "";
+            String retornarAsginacion = asignarValorFor.traduccion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
+            retornar += retornarAsginacion;
+            String retornarCondicion = limite.traduccionCondicion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
+            String[] condicionAnd = retornarCondicion.Split("&&");
+            String inicioWhile = "L" + l;
+            l++;
+            String verdadero = "", falso = "", falsedad = "";
+            retornar += inicioWhile + ":\n";
+            for (int i = 0; i < condicionAnd.Length; i++)
+            {
+                if (!verdadero.Equals(""))
+                {
+                    retornar += verdadero + ":\n";
+                }
+                verdadero = "L" + l;
+                l++;
+                String condAnd = condicionAnd[i];
+                String[] condicionOr = condAnd.Split("||");
+                for (int j = 0; j < condicionOr.Length; j++)
+                {
+                    if (!falso.Equals(""))
+                    {
+                        retornar += falso + ":\n";
+                    }
+                    if (i == 0)
+                    {
+                        falso = "L" + l;
+                        falsedad = falso;
+                        l++;
+                    }
+                    String condOr = condicionOr[j];
+                    String[] lineasOR = condOr.Split("\n");
+                    foreach (String linea in lineasOR)
+                    {
+                        if (linea.Equals(lineasOR[lineasOR.Length - 2]))
+                        {
+                            if (j != condicionOr.Length - 1)
+                            {
+                                falso = "L" + l;
+                                l++;
+                                retornar += "if (" + linea + ")goto " + verdadero + ";\ngoto " + falso + ";\n";
+                            }
+                            else
+                            {
+                                retornar += "if (" + linea + ")goto " + verdadero + ";\ngoto " + falsedad + ";\n";
+                            }
+                        }
+                        else
+                        {
+                            retornar += linea + "\n";
+                        }
+                    }
+                }
+
+                falso = "";
+            }
+
+            if (sentencias != null)
+            {
+                retornar += falsedad + ":\n";
+                foreach (Instruccion sentencia in sentencias)
+                {
+                    retornar += sentencia.traduccion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
+                }
+                if (tipo == TipoFor.INCREMENTO)
+                {
+                    Operacion op = new Operacion((Object)id, Operacion.Tipo_operacion.IDENTIFICADOR);
+                    Operacion op1 = new Operacion(1, Operacion.Tipo_operacion.NUMERO);
+                    Operacion op2 = new Operacion(op, op1, Operacion.Tipo_operacion.SUMA);
+                    Asignacion nueva = new Asignacion(id, op2);
+                    retornar += nueva.traduccion(stack,heap,temporales,ref sp, ref hp, ref t, ref l).ToString();
+                }
+                else
+                {
+                    Operacion op = new Operacion((Object)id, Operacion.Tipo_operacion.IDENTIFICADOR);
+                    Operacion op1 = new Operacion(1, Operacion.Tipo_operacion.NUMERO);
+                    Operacion op2 = new Operacion(op, op1, Operacion.Tipo_operacion.RESTA);
+                    Asignacion nueva = new Asignacion(id, op2);
+                    retornar += nueva.traduccion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
+                }
+                retornar += "goto " + inicioWhile + ";\n";
+            }
+            retornar += verdadero + ":\n";
+            return retornar;
         }
     }
 }
