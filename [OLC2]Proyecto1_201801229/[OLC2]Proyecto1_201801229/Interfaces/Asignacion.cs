@@ -194,6 +194,7 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                 retornar += "HP=HP+1;\n";
                 hp++;
                 retornar += "Stack["+elemntoStack.ReferenciaStack+"]=" + refH + ";\n";
+                elemntoStack.ReferenciaHeap = refH;
                 return retornar;
             }
             else

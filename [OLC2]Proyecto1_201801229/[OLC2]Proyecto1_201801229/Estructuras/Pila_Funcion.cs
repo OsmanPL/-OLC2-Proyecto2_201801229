@@ -27,6 +27,33 @@ namespace _OLC2_Proyecto1_201801229.Estructuras
             }
         }
 
+        public Elemento_Funcion buscar(String id)
+        {
+            Elemento_Funcion temp = top;
+            while (temp!=null)
+            {
+                if (temp.Funcion.GetType() == typeof(Funcion))
+                {
+                    Funcion func = (Funcion)temp.Funcion;
+                    if (func.Id.ToLower().Equals(id.ToLower()))
+                    {
+                        return temp;
+                    }
+                }
+                else if (temp.Funcion.GetType() == typeof(Procedimiento))
+                {
+                    Procedimiento func = (Procedimiento)temp.Funcion;
+                    if (func.Id.ToLower().Equals(id.ToLower()))
+                    {
+                        return temp;
+                    }
+                }
+
+                temp = temp.Siguiente;
+            }
+            return null;
+        }
+        
         public Elemento_Funcion pull()
         {
             if (!pilaVacia())

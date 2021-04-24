@@ -94,6 +94,11 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                             String  ret = dato.traduccion(stack,heap,temporales,ref sp, ref hp, ref t, ref l).ToString();
                             String val = dato.retornarTipo();
                             Elemento_Stack elemntoStack = stack.buscarElementoStack(val);
+                            if (elemntoStack==null)
+                            {
+                                val = dato.retornarTipo3();
+                                elemntoStack = stack.buscarElementoStack(val);
+                            }
                             if (elemntoStack != null)
                             {
                                 if (elemntoStack.Tipo == Simbolo.TipoDato.STRING)
@@ -203,6 +208,11 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                             String ret = dato.traduccion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
                             String val = dato.retornarTipo();
                             Elemento_Stack elemntoStack = stack.buscarElementoStack(val);
+                            if (elemntoStack == null)
+                            {
+                                val = dato.retornarTipo3();
+                                elemntoStack = stack.buscarElementoStack(val);
+                            }
                             if (elemntoStack != null)
                             {
                                 if (elemntoStack.Tipo == Simbolo.TipoDato.STRING)

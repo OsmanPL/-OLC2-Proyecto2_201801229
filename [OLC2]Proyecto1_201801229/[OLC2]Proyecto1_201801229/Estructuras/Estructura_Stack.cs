@@ -43,6 +43,23 @@ namespace _OLC2_Proyecto1_201801229.Estructuras
             }
         }
 
+        public void borrar(int refe)
+        {
+            Elemento_Stack temp = top;
+            if (temp != null)
+            {
+                while (temp != null)
+                {
+                    if (temp.ReferenciaStack == refe)
+                    {
+                        temp.Siguiente = null;
+                        break;
+                    }
+                    temp = temp.Siguiente;
+                }
+            }
+        }
+
         public Elemento_Stack buscarElementoStack(String id)
         {
             Elemento_Stack temp = top;

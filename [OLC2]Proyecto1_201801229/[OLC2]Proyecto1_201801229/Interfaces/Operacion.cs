@@ -1000,6 +1000,38 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                         t++;
                         return retornar;
                     }
+
+                    case Tipo_operacion.LLAMADAPROCEDIMIENTO:
+                    try
+                    {
+                        Elemento_Funcion elementoFucnion = GeneradorAST.pilaFuncion.buscar(id);
+                        if (elementoFucnion.Funcion.GetType() == typeof(Funcion))
+                        {
+                            
+                            String t1 = "T" + t;
+                            temporales.AddLast("T"+t);
+                            t++;
+                            retornar += t1+"=SP;\nSP=SP+1;\n";
+                            retornar += id.ToLower() + "();\n";
+                            String t2 = "T" + t;
+                            temporales.AddLast("T" + t);
+                            t++;
+                            retornar += t2 + "=SP;\n";
+                            retornar += "SP=" + t1 + ";\n";
+                            retornar += "T"+t+"=Stack[(int)"+t2+"];\n";
+                            temporales.AddLast("T" + t);
+                            t++;
+                        }else if (elementoFucnion.Funcion.GetType() == typeof(Procedimiento))
+                        {
+                            retornar += id.ToLower()+"();\n";
+                        }
+                        return retornar;
+                    }
+                    catch (Exception e)
+                    {
+                        return null;
+                    }
+
             }
             return null;
         }
@@ -1010,6 +1042,10 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
         public Tipo_operacion retornarTipo2()
         {
             return tipo;
+        }
+        public String retornarTipo3()
+        {
+            return tipo == Tipo_operacion.LLAMADAPROCEDIMIENTO || tipo == Tipo_operacion.LLAMADAFUNCION ? id : "";
         }
 
         public Object traduccionCondicion(Estructura_Stack stack, Estructura_Heap heap, LinkedList<String> temporales, ref int sp, ref int hp, ref int t, ref int l)

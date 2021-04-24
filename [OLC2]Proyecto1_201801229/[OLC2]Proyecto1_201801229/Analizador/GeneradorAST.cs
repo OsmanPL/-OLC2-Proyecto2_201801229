@@ -22,9 +22,11 @@ namespace _OLC2_Proyecto1_201801229.Analizador
         public static LinkedList<ArrayPascal> arrays = new LinkedList<ArrayPascal>();
         public static LinkedList<Error> listaErrores = new LinkedList<Error>();
         public static TablaSimbolos tablaCompleta = new TablaSimbolos("Completa");
+        public static LinkedList<Instruccion> funcionesYprocedimientos;
+        public static Funcion funcionActual;
         public Estructura_Heap heap = new Estructura_Heap();
         public Estructura_Stack stack = new Estructura_Stack();
-        public Pila_Funcion pilaFuncion = new Pila_Funcion();
+        public static Pila_Funcion pilaFuncion = new Pila_Funcion();
         public LinkedList<String> temporales = new LinkedList<String>();
         public int sp = 0, hp = 0, t=0, l=0;
         ParseTreeNode raiz = null;
@@ -47,6 +49,9 @@ namespace _OLC2_Proyecto1_201801229.Analizador
             listaErrores = new LinkedList<Error>();
             arrays = new LinkedList<ArrayPascal>();
             temporales = new LinkedList<String>();
+            funcionesYprocedimientos = new LinkedList<Instruccion>();
+            funcionActual = null;
+            pilaFuncion.vaciarPila();
             stack.vaciarStack();
             heap.vaciarHeap();
             pilaFuncion.vaciarPila();
@@ -145,11 +150,13 @@ namespace _OLC2_Proyecto1_201801229.Analizador
                 case "NT_funcion":
                     Funcion nuevaFuncion = metodoFuncion(nodoActual.ChildNodes.ElementAt(0));
                     funciones.AddLast(nuevaFuncion);
+                    funcionesYprocedimientos.AddLast(nuevaFuncion);
                     pilaFuncion.push(new Elemento_Funcion(nuevaFuncion,null));
                     return null;
                 case "NT_procedimiento":
                     Procedimiento nuevoProcedimiento = metodoProcedmiento(nodoActual.ChildNodes.ElementAt(0));
                     procedimientos.AddLast(nuevoProcedimiento);
+                    funcionesYprocedimientos.AddLast(nuevoProcedimiento);
                     pilaFuncion.push(new Elemento_Funcion(nuevoProcedimiento, null));
                     return null;
                 case "NT_write":

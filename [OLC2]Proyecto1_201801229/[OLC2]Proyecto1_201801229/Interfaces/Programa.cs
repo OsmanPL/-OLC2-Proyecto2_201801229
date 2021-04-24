@@ -1,4 +1,5 @@
-﻿using _OLC2_Proyecto1_201801229.Estructuras;
+﻿using _OLC2_Proyecto1_201801229.Analizador;
+using _OLC2_Proyecto1_201801229.Estructuras;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -56,6 +57,59 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
             encabezado += "float SP; \n";
             encabezado += "float HP;\n";
 
+
+            funciones += "void printString(){\n";
+            String temp = "T" + t;
+            funciones += "T" + t + "=Stack[(int)SP];\n";
+            temporales.AddLast("T" + t);
+            t++;
+            funciones += "T" + t + "=Heap[(int)" + temp + "];\n";
+            String temp2 = "T" + t;
+            temporales.AddLast("T" + t);
+            t++;
+            funciones += "LoopImprimir:\n";
+            funciones += "printf(\"%c\",(char)" + temp2 + ");\n";
+            funciones += temp + "=" + temp + "+1;\n";
+            funciones += temp2 + "=Heap[(int)" + temp + "];\n";
+            funciones += "if(" + temp2 + "!= -1) goto LoopImprimir;\nreturn;\n";
+            funciones += "}\n\n";
+
+            funciones += "void printBool(){\n";
+            funciones += "T" + t + "= Stack[(int)SP];\n";
+            String tempo = "T" + t;
+            temporales.AddLast("T" + t);
+            String etiqueta1 = "L" + l;
+            l++;
+            String etiqueta2 = "L" + l;
+            l++;
+            String etiqueta3 = "L" + l;
+            l++;
+            funciones += "if(" + tempo + "==0)goto " + etiqueta1 + ";\ngoto " + etiqueta2 + ";\n";
+            funciones += etiqueta1 + ":\n";
+            funciones += "printf(\"%c\",(char)70);\n";
+            funciones += "printf(\"%c\",(char)65);\n";
+            funciones += "printf(\"%c\",(char)76);\n";
+            funciones += "printf(\"%c\",(char)83);\n";
+            funciones += "printf(\"%c\",(char)69);\ngoto " + etiqueta3 + ";\n";
+            funciones += etiqueta2 + ":\n";
+            funciones += "printf(\"%c\",(char)84);\n";
+            funciones += "printf(\"%c\",(char)82);\n";
+            funciones += "printf(\"%c\",(char)85);\n";
+            funciones += "printf(\"%c\",(char)69);\n" + etiqueta3 + ":\nreturn;\n";
+            funciones += "}\n";
+
+
+            if (GeneradorAST.funcionesYprocedimientos != null)
+            {
+                foreach (Instruccion inst in GeneradorAST.funcionesYprocedimientos)
+                {
+                    if (inst != null)
+                    {
+                        funciones += inst.traduccion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
+                    }
+                }
+            }
+
             main += "int main(){\n";
             if (sentencias != null)
             {
@@ -80,45 +134,7 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
             main += "return 0; \n}\n";
             
 
-            funciones += "void printString(){\n";
-            String temp = "T" + t;
-            funciones += "T"+t+ "=Stack[(int)SP];\n";
-            temporales.AddLast("T"+t);
-            t++;
-            funciones += "T" + t + "=Heap[(int)" + temp + "];\n";
-            String temp2 = "T" + t;
-            temporales.AddLast("T" + t);
-            t++;
-            funciones += "LoopImprimir:\n";
-            funciones += "printf(\"%c\",(char)"+temp2+");\n";
-            funciones += temp+"="+temp+"+1;\n";
-            funciones += temp2 + "=Heap[(int)" + temp + "];\n";
-            funciones += "if("+temp2+"!= -1) goto LoopImprimir;\nreturn;\n";
-            funciones += "}\n\n";
-
-            funciones += "void printBool(){\n";
-            funciones += "T" + t + "= Stack[(int)SP];\n";
-            String tempo = "T" + t;
-            temporales.AddLast("T" + t);
-            String etiqueta1 = "L" + l;
-            l++;
-            String etiqueta2 = "L" + l;
-            l++;
-            String etiqueta3 = "L"+l;
-            l++;
-            funciones += "if(" + tempo + "==0)goto " + etiqueta1 + ";\ngoto " + etiqueta2 + ";\n";
-            funciones += etiqueta1 + ":\n";
-            funciones += "printf(\"%c\",(char)70);\n";
-            funciones += "printf(\"%c\",(char)65);\n";
-            funciones += "printf(\"%c\",(char)76);\n";
-            funciones += "printf(\"%c\",(char)83);\n";
-            funciones += "printf(\"%c\",(char)69);\ngoto "+etiqueta3+";\n";
-            funciones += etiqueta2 + ":\n";
-            funciones += "printf(\"%c\",(char)84);\n";
-            funciones += "printf(\"%c\",(char)82);\n";
-            funciones += "printf(\"%c\",(char)85);\n";
-            funciones += "printf(\"%c\",(char)69);\n"+etiqueta3+":\nreturn;\n";
-            funciones += "}\n";
+           
 
             if (temporales.Count > 0)
             {
