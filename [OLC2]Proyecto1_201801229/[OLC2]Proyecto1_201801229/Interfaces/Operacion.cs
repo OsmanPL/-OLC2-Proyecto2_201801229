@@ -1066,6 +1066,23 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                     valorDerecho = operadorDer.traduccionCondicion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
                     retornar += valorIzquierdo + "||" + valorDerecho;
                     return retornar;
+                case Tipo_operacion.NOT:
+                    valorIzquierdo = operadorIzq.traduccionCondicion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
+                    String[] valores = valorIzquierdo.Split("\n");
+                    String val = "";
+                    for (int i=0;i<valores.Length;i++)
+                    {
+                        if (i==valores.Length-2)
+                        {
+                            val += "!" + valores[i];
+                        }
+                        else
+                        {
+                            val += valores[i] + "\n";
+                        }
+                    }
+                    retornar += val;
+                    return retornar;
 
                 //Operaciones Relacionales
                 case Tipo_operacion.MAYOR_IGUAL_QUE:
@@ -1321,6 +1338,38 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                         temporales.AddLast("T" + t);
                         t++;
                         return retornar;
+                    }
+
+                case Tipo_operacion.LLAMADAPROCEDIMIENTO:
+                    try
+                    {
+                        Elemento_Funcion elementoFucnion = GeneradorAST.pilaFuncion.buscar(id);
+                        if (elementoFucnion.Funcion.GetType() == typeof(Funcion))
+                        {
+
+                            String t1 = "T" + t;
+                            temporales.AddLast("T" + t);
+                            t++;
+                            retornar += t1 + "=SP;\nSP=SP+1;\n";
+                            retornar += id.ToLower() + "();\n";
+                            String t2 = "T" + t;
+                            temporales.AddLast("T" + t);
+                            t++;
+                            retornar += t2 + "=SP;\n";
+                            retornar += "SP=" + t1 + ";\n";
+                            retornar += "T" + t + "=Stack[(int)" + t2 + "];\n";
+                            temporales.AddLast("T" + t);
+                            t++;
+                        }
+                        else if (elementoFucnion.Funcion.GetType() == typeof(Procedimiento))
+                        {
+                            retornar += id.ToLower() + "();\n";
+                        }
+                        return retornar;
+                    }
+                    catch (Exception e)
+                    {
+                        return null;
                     }
             }
             return null;

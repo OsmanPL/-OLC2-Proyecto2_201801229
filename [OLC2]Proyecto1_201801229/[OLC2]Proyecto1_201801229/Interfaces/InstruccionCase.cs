@@ -52,7 +52,23 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
         }
         public Object traduccion(Estructura_Stack stack, Estructura_Heap heap, LinkedList<String> temporales, ref int sp, ref int hp, ref int t, ref int l)
         {
-            return null;
+            string retornar = "";
+            if (condicion!=null)
+            {
+                foreach (Operacion op in condicion)
+                {
+                    retornar += "case "+op.traduccion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString().Split("\n")[0]+":\n";
+                    if (sentencias != null)
+                    {
+                        foreach (Instruccion inst in sentencias)
+                        {
+                            retornar+=inst.traduccion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
+                        }
+                    }
+                    retornar += "break;\n";
+                }
+            }
+            return retornar;
         }
     }
 }

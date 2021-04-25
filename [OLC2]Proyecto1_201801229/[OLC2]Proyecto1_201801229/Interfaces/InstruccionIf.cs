@@ -114,11 +114,84 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                             {
                                 falso = "L" + l;
                                 l++;
-                                retornar += "if (" + linea + ")goto " + verdadero + ";\ngoto " + falso + ";\n";
+                                if ((linea.Contains("==") || linea.Contains(">=") || linea.Contains("<=") || linea.Contains("!=") || linea.Contains(">") || linea.Contains("<")))
+                                {
+                                    String lin = linea;
+                                    if (linea.Contains("=="))
+                                    {
+                                        lin = linea.Replace("==", "!=");
+                                    }
+                                    else if (linea.Contains(">="))
+                                    {
+                                        lin = linea.Replace(">=", "<");
+                                    }
+                                    else if (linea.Contains("<="))
+                                    {
+                                        lin = linea.Replace("<=", ">");
+                                    }
+                                    else if (linea.Contains("!="))
+                                    {
+                                        lin = linea.Replace("!=", "==");
+                                    }
+                                    else if (linea.Contains(">"))
+                                    {
+                                        lin = linea.Replace(">", "<=");
+                                    }
+                                    else if (linea.Contains("<"))
+                                    {
+                                        lin = linea.Replace("<", ">=");
+                                    }
+                                    retornar += "if (" + lin.TrimStart('!') + ")goto " + verdadero + ";\ngoto " + falso + ";\n";
+                                }
+                                else
+                                {
+                                    retornar += linea.TrimStart('!')+"\n";
+                                    retornar += "if (" + linea.Split("=")[0] + ")goto " + verdadero + ";\ngoto " + falso + ";\n";
+                                }
+                               
                             }
                             else
                             {
-                                retornar += "if (" + linea + ")goto " + verdadero + ";\ngoto " + falsedad + ";\n";
+                                if ((linea.Contains("==") || linea.Contains(">=") || linea.Contains("<=") || linea.Contains("!=") || linea.Contains(">") || linea.Contains("<")))
+                                {
+                                    if (linea.StartsWith("!"))
+                                    {
+                                        String lin = linea;
+                                        if (linea.Contains("=="))
+                                        {
+                                            lin = linea.Replace("==","!=");
+                                        }else if (linea.Contains(">="))
+                                        {
+                                            lin = linea.Replace(">=", "<");
+                                        }
+                                        else if (linea.Contains("<="))
+                                        {
+                                            lin = linea.Replace("<=", ">");
+                                        }
+                                        else if (linea.Contains("!="))
+                                        {
+                                            lin = linea.Replace("!=", "==");
+                                        }
+                                        else if (linea.Contains(">"))
+                                        {
+                                            lin = linea.Replace(">", "<=");
+                                        }
+                                        else if (linea.Contains("<"))
+                                        {
+                                            lin = linea.Replace("<", ">=");
+                                        }
+                                        retornar += "if (" + lin.TrimStart('!') + ")goto " + verdadero + ";\ngoto " + falsedad + ";\n";
+                                    }
+                                    else
+                                    {
+                                        retornar += "if (" + linea + ")goto " + verdadero + ";\ngoto " + falsedad + ";\n";
+                                    }
+                                }
+                                else
+                                {
+                                    retornar += linea.TrimStart('!') + "\n";
+                                    retornar += "if (" + linea.Split("=")[0] + ")goto " + verdadero + ";\ngoto " + falsedad + ";\n";
+                                }
                             }
                         }
                         else
