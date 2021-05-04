@@ -49,11 +49,14 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
         {
             String retornar = "";
             String retornarCondicion = condicion.traduccionCondicion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
-            String[] condicionAnd = retornarCondicion.Split("&&");
+            
             String inicioWhile = "L" + l;
             l++;
-            String verdadero = "", falso = "", falsedad = "";
+            String verdadero = "", falso = "";
             retornar += inicioWhile + ":\n";
+
+
+
             if (sentencias != null)
             {
                 foreach (Instruccion sentencia in sentencias)
@@ -61,122 +64,89 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                     retornar += sentencia.traduccion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
                 }
             }
-           
-            for (int i = 0; i < condicionAnd.Length; i++)
+
+            String[] condicionNot = retornarCondicion.Split("!");
+
+            int conteoNot = 0;
+            for (int k = 0; k < condicionNot.Length; k++)
             {
-                if (!verdadero.Equals(""))
+                if (condicionNot[k].Equals(""))
                 {
-                    retornar += verdadero + ":\n";
+                    conteoNot++;
                 }
-                verdadero = "L" + l;
-                l++;
-                String condAnd = condicionAnd[i];
-                String[] condicionOr = condAnd.Split("||");
-                for (int j = 0; j < condicionOr.Length; j++)
+                else
                 {
-                    if (!falso.Equals(""))
+                    String[] condicionAnd = condicionNot[k].Split("&&");
+                    for (int i = 0; i < condicionAnd.Length; i++)
                     {
-                        retornar += falso + ":\n";
-                    }
-                    String condOr = condicionOr[j];
-                    String[] lineasOR = condOr.Split("\n");
-                    foreach (String linea in lineasOR)
-                    {
-                        if (linea.Equals(lineasOR[lineasOR.Length - 2]))
+                        if (!verdadero.Equals(""))
                         {
-                            if (j != condicionOr.Length - 1)
+                            retornar += verdadero + ":\n";
+                        }
+                        verdadero = "L" + l;
+                        l++;
+                        String condAnd = condicionAnd[i];
+                        String[] condicionOr = condAnd.Split("||");
+                        for (int j = 0; j < condicionOr.Length; j++)
+                        {
+                            if (!falso.Equals(""))
                             {
-                                falso = "L" + l;
-                                l++;
-                                if ((linea.Contains("==") || linea.Contains(">=") || linea.Contains("<=") || linea.Contains("!=") || linea.Contains(">") || linea.Contains("<")))
-                                {
-                                    String lin = linea;
-                                    if (linea.Contains("=="))
-                                    {
-                                        lin = linea.Replace("==", "!=");
-                                    }
-                                    else if (linea.Contains(">="))
-                                    {
-                                        lin = linea.Replace(">=", "<");
-                                    }
-                                    else if (linea.Contains("<="))
-                                    {
-                                        lin = linea.Replace("<=", ">");
-                                    }
-                                    else if (linea.Contains("!="))
-                                    {
-                                        lin = linea.Replace("!=", "==");
-                                    }
-                                    else if (linea.Contains(">"))
-                                    {
-                                        lin = linea.Replace(">", "<=");
-                                    }
-                                    else if (linea.Contains("<"))
-                                    {
-                                        lin = linea.Replace("<", ">=");
-                                    }
-                                    retornar += "if (" + lin.TrimStart('!') + ")goto " + verdadero + ";\ngoto " + falso + ";\n";
-                                }
-                                else
-                                {
-                                    retornar += linea.TrimStart('!') + "\n";
-                                    retornar += "if (" + linea.Split("=")[0] + ")goto " + verdadero + ";\ngoto " + falso + ";\n";
-                                }
+                                retornar += falso + ":\n";
                             }
-                            else
+                            String condOr = condicionOr[j];
+                            String[] lineasOR = condOr.Split("\n");
+                            foreach (String linea in lineasOR)
                             {
-                                if ((linea.Contains("==") || linea.Contains(">=") || linea.Contains("<=") || linea.Contains("!=") || linea.Contains(">") || linea.Contains("<")))
+                                if (linea.Equals(lineasOR[lineasOR.Length - 2]))
                                 {
-                                    if (linea.StartsWith("!"))
+                                    if (j != condicionOr.Length - 1)
                                     {
-                                        String lin = linea;
-                                        if (linea.Contains("=="))
+                                        falso = "L" + l;
+                                        l++;
+                                        if ((linea.Contains("==") || linea.Contains(">=") || linea.Contains("<=") || linea.Contains("!=") || linea.Contains(">") || linea.Contains("<")))
                                         {
-                                            lin = linea.Replace("==", "!=");
+
+                                            retornar += "if (" + linea + ")goto " + verdadero + ";\ngoto " + falso + ";\n";
                                         }
-                                        else if (linea.Contains(">="))
+                                        else
                                         {
-                                            lin = linea.Replace(">=", "<");
+                                            retornar += "if (" + linea.Split("=")[0] + ")goto " + verdadero + ";\ngoto " + falso + ";\n";
                                         }
-                                        else if (linea.Contains("<="))
-                                        {
-                                            lin = linea.Replace("<=", ">");
-                                        }
-                                        else if (linea.Contains("!="))
-                                        {
-                                            lin = linea.Replace("!=", "==");
-                                        }
-                                        else if (linea.Contains(">"))
-                                        {
-                                            lin = linea.Replace(">", "<=");
-                                        }
-                                        else if (linea.Contains("<"))
-                                        {
-                                            lin = linea.Replace("<", ">=");
-                                        }
-                                        retornar += "if (" + lin.TrimStart('!') + ")goto " + verdadero + ";\ngoto " + inicioWhile + ";\n";
                                     }
                                     else
                                     {
-                                        retornar += "if (" + linea + ")goto " + verdadero + ";\ngoto " + inicioWhile + ";\n";
+                                        String iniWhile = inicioWhile;
+                                        String tempV = verdadero;
+                                        if (!(conteoNot % 2 == 0) && i == condicionAnd.Length - 1)
+                                        {
+                                            tempV = inicioWhile;
+                                            iniWhile = verdadero;
+                                        }
+                                        if ((linea.Contains("==") || linea.Contains(">=") || linea.Contains("<=") || linea.Contains("!=") || linea.Contains(">") || linea.Contains("<")))
+                                        {
+                                            retornar += "if (" + linea + ")goto " + tempV + ";\ngoto " + iniWhile + ";\n";
+                                        }
+                                        else
+                                        {
+                                            retornar += "if (" + linea.Split("=")[0] + ")goto " + tempV + ";\ngoto " + iniWhile + ";\n";
+                                        }
                                     }
                                 }
                                 else
                                 {
-                                    retornar += linea.TrimStart('!') + "\n";
-                                    retornar += "if (" + linea.Split("=")[0] + ")goto " + verdadero + ";\ngoto " + inicioWhile + ";\n";
+                                    retornar += linea + "\n";
                                 }
                             }
                         }
-                        else
-                        {
-                            retornar += linea + "\n";
-                        }
-                    }
-                }
 
-                falso = "";
+                        falso = "";
+                    }
+                    conteoNot = 0;
+                }
             }
+
+
+            
 
             retornar += verdadero + ":\n";
 

@@ -58,6 +58,43 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
             encabezado += "float HP;\n";
 
 
+            if (GeneradorAST.funcionesYprocedimientos != null)
+            {
+                foreach (Instruccion inst in GeneradorAST.funcionesYprocedimientos)
+                {
+                    if (inst.GetType() == typeof(Funcion))
+                    {
+                        Funcion func = (Funcion)inst;
+                        int pos = func.Parametros.Count;
+                        stack.agregarStack(new Elemento_Stack(func.Id,func.Retorno,pos,0,null,false));
+                    }
+                }
+            }
+
+            main += "int main(){\n";
+            if (sentencias != null)
+            {
+                foreach (Instruccion inst in sentencias)
+                {
+                    if (inst != null)
+                    {
+                        main += inst.traduccion(stack, heap, temporales,ref sp,ref hp,ref t,ref l).ToString();
+                    }
+                }
+            }
+            if (instrucciones != null)
+            {
+                foreach (Instruccion inst in instrucciones)
+                {
+                    if (inst != null)
+                    {
+                        main += inst.traduccion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
+                    }
+                }
+            }
+            main += "return 0; \n}\n";
+
+
             funciones += "void printString(){\n";
             String temp = "T" + t;
             funciones += "T" + t + "=Stack[(int)SP];\n";
@@ -109,32 +146,6 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                     }
                 }
             }
-
-            main += "int main(){\n";
-            if (sentencias != null)
-            {
-                foreach (Instruccion inst in sentencias)
-                {
-                    if (inst != null)
-                    {
-                        main += inst.traduccion(stack, heap, temporales,ref sp,ref hp,ref t,ref l).ToString();
-                    }
-                }
-            }
-            if (instrucciones != null)
-            {
-                foreach (Instruccion inst in instrucciones)
-                {
-                    if (inst != null)
-                    {
-                        main += inst.traduccion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
-                    }
-                }
-            }
-            main += "return 0; \n}\n";
-            
-
-           
 
             if (temporales.Count > 0)
             {

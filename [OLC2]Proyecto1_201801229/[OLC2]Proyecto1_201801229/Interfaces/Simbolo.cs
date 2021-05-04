@@ -12,6 +12,7 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
         private Object valor;
         private String type;
         private String entorno;
+        private int referenciaStack;
 
         public Simbolo(String id, TipoDato tipo, Object valor, String entorno, TipoVarariable tipoVar)
         {
@@ -48,6 +49,7 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
         internal TipoVarariable TipoVar { get => tipoVar; set => tipoVar = value; }
         public string Type { get => type; set => type = value; }
         public string Entorno { get => entorno; set => entorno = value; }
+        public int ReferenciaStack { get => referenciaStack; set => referenciaStack = value; }
 
         public enum TipoDato
         {

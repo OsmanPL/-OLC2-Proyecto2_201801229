@@ -176,37 +176,111 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
         public Object traduccion(Estructura_Stack stack, Estructura_Heap heap, LinkedList<String> temporales, ref int sp, ref int hp, ref int t, ref int l)
         {
             String valores = valor.traduccion(stack,heap,temporales,ref sp, ref hp, ref t, ref l).ToString();
-            Elemento_Stack elemntoStack = stack.buscarElementoStack(id);
-            if (elemntoStack.Tipo == Simbolo.TipoDato.STRING)
+            if (GeneradorAST.funcionActual!=null)
             {
-                String retornar = "";
-                int refH = hp;
-                for (int i=0; i<valores.Length;i++)
+                Elemento_Stack elemntoStack = stack.buscarElementoStack(id);
+                if (elemntoStack.Tipo == Simbolo.TipoDato.STRING)
                 {
-                    char c = valores[i];
-                    retornar += "Heap[(int)HP]=" + (int)c + ";\n";
-                    heap.agregarHeap(new Elemento_Heap((int)c, hp, null));
+                    String retornar = "";
+                    String te = "T"+t+"";
+                    temporales.AddLast("T"+t);
+                    t++;
+                    retornar += te + "=HP;\n" ;
+                    int refH = hp;
+                    for (int i = 0; i < valores.Length; i++)
+                    {
+                        char c = valores[i];
+                        retornar += "Heap[(int)HP]=" + (int)c + ";\n";
+                        heap.agregarHeap(new Elemento_Heap((int)c, hp, null));
+                        retornar += "HP=HP+1;\n";
+                        hp++;
+                    }
+                    retornar += "Heap[(int)HP]=-1;\n";
+                    heap.agregarHeap(new Elemento_Heap(-1, hp, null));
                     retornar += "HP=HP+1;\n";
                     hp++;
+                    retornar += "T" + t+"=SP+"+elemntoStack.ReferenciaStack+";\n";
+                    retornar += "Stack[(int)T" + t + "]=" + te + ";\n";
+                    temporales.AddLast("T" + t);
+                    t++;
+                    elemntoStack.ReferenciaHeap = refH;
+                    return retornar;
                 }
-                retornar += "Heap[(int)HP]=-1;\n";
-                heap.agregarHeap(new Elemento_Heap(-1, hp, null));
-                retornar += "HP=HP+1;\n";
-                hp++;
-                retornar += "Stack["+elemntoStack.ReferenciaStack+"]=" + refH + ";\n";
-                elemntoStack.ReferenciaHeap = refH;
-                return retornar;
+                else
+                {
+                    String retornar = "";
+                    if (valores.Contains("T"))
+                    {
+                        retornar += valores;
+                    }
+                    if (elemntoStack.Fu)
+                    {
+                        retornar += "T" + t + "=SP+" + elemntoStack.ReferenciaStack + ";\n";
+                        retornar += "Stack[(int)T" + t + "]=" + valores.Split("\n")[valores.Split("\n").Length - 2].Split("=")[0].Split(";")[0] + ";\n";
+                        temporales.AddLast("T" + t);
+                        t++;
+                    }
+                    else
+                    {
+                        retornar += "Stack[" + elemntoStack.ReferenciaStack + "]=" + valores.Split("\n")[valores.Split("\n").Length - 2].Split("=")[0].Split(";")[0] + ";\n";
+                        return retornar;
+                    }
+                   
+                    return retornar;
+                }
             }
             else
             {
-                String retornar = "";
-                if (valores.Contains("T"))
+                Elemento_Stack elemntoStack = stack.buscarElementoStack(id);
+                if (elemntoStack.Tipo == Simbolo.TipoDato.STRING)
                 {
-                    retornar += valores;
+                    String retornar = "";
+                    int refH = hp;
+                    if (valores.Contains("T"))
+                    {
+                        if (valores.Contains("T"))
+                        {
+                            retornar += valores;
+                        }
+                        retornar += "Stack[" + elemntoStack.ReferenciaStack + "]=" + valores.Split("\n")[valores.Split("\n").Length - 2].Split("=")[0].Split(";")[0] + ";\n";
+                        return retornar;
+                    }
+                    else
+                    {
+                        String te = "T" + t + "";
+                        temporales.AddLast("T" + t);
+                        t++;
+                        retornar += te + "=HP;\n";
+                        for (int i = 0; i < valores.Length; i++)
+                        {
+                            char c = valores[i];
+                            retornar += "Heap[(int)HP]=" + (int)c + ";\n";
+                            heap.agregarHeap(new Elemento_Heap((int)c, hp, null));
+                            retornar += "HP=HP+1;\n";
+                            hp++;
+                        }
+                        retornar += "Heap[(int)HP]=-1;\n";
+                        heap.agregarHeap(new Elemento_Heap(-1, hp, null));
+                        retornar += "HP=HP+1;\n";
+                        hp++;
+                        retornar += "Stack[" + elemntoStack.ReferenciaStack + "]=" + te + ";\n";
+                        elemntoStack.ReferenciaHeap = refH;
+                        return retornar;
+                    }
+                    
                 }
-                retornar +=  "Stack[" + elemntoStack.ReferenciaStack + "]=" + valores.Split("\n")[valores.Split("\n").Length - 2].Split("=")[0].Split(";")[0] + ";\n";
-                return retornar;
+                else
+                {
+                    String retornar = "";
+                    if (valores.Contains("T"))
+                    {
+                        retornar += valores;
+                    }
+                    retornar += "Stack[" + elemntoStack.ReferenciaStack + "]=" + valores.Split("\n")[valores.Split("\n").Length - 2].Split("=")[0].Split(";")[0] + ";\n";
+                    return retornar;
+                }
             }
+            
         }
     }
 }

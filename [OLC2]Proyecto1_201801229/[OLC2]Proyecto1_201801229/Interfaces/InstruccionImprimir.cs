@@ -103,6 +103,10 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                             {
                                 if (elemntoStack.Tipo == Simbolo.TipoDato.STRING)
                                 {
+                                    if (ret.Contains("T"))
+                                    {
+                                        retornar += ret;
+                                    }
                                     retornar += "T" + t + "= SP;\n";
                                     String temp = "T" + t;
                                     temporales.AddLast("T" + t);
@@ -113,6 +117,10 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                                 }
                                 else if (elemntoStack.Tipo == Simbolo.TipoDato.BOOLEAN)
                                 {
+                                    if (ret.Contains("T"))
+                                    {
+                                        retornar += ret;
+                                    }
                                     retornar += "T" + t + "= SP;\n";
                                     String temp = "T" + t;
                                     temporales.AddLast("T" + t);
@@ -212,11 +220,16 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                             {
                                 val = dato.retornarTipo3();
                                 elemntoStack = stack.buscarElementoStack(val);
+
                             }
                             if (elemntoStack != null)
                             {
                                 if (elemntoStack.Tipo == Simbolo.TipoDato.STRING)
                                 {
+                                    if (ret.Contains("T"))
+                                    {
+                                        retornar += ret;
+                                    }
                                     retornar += "T" + t + "= SP;\n";
                                     String temp = "T" + t;
                                     temporales.AddLast("T" + t);
@@ -227,6 +240,10 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                                 }
                                 else if (elemntoStack.Tipo == Simbolo.TipoDato.BOOLEAN)
                                 {
+                                    if (ret.Contains("T"))
+                                    {
+                                        retornar += ret;
+                                    }
                                     retornar += "T" + t + "= SP;\n";
                                     String temp = "T" + t;
                                     temporales.AddLast("T" + t);

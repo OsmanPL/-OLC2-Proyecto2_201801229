@@ -8,9 +8,11 @@ namespace _OLC2_Proyecto1_201801229.Estructuras
     {
         Elemento_Stack top;
 
+        internal Elemento_Stack Top { get => top; set => top = value; }
+
         public bool existe(String id)
         {
-            Elemento_Stack temp = top;
+            Elemento_Stack temp = Top;
             if (temp != null)
             {
                 while (temp != null)
@@ -27,25 +29,25 @@ namespace _OLC2_Proyecto1_201801229.Estructuras
 
         public bool stackVacia()
         {
-            return top != null ? false : true;
+            return Top != null ? false : true;
         }
 
         public void agregarStack(Elemento_Stack nuevo)
         {
             if (stackVacia())
             {
-                top = nuevo;
+                Top = nuevo;
             }
             else
             {
-                nuevo.Siguiente = top;
-                top = nuevo;
+                nuevo.Siguiente = Top;
+                Top = nuevo;
             }
         }
 
         public void borrar(int refe)
         {
-            Elemento_Stack temp = top;
+            Elemento_Stack temp = Top;
             if (temp != null)
             {
                 while (temp != null)
@@ -62,7 +64,7 @@ namespace _OLC2_Proyecto1_201801229.Estructuras
 
         public Elemento_Stack buscarElementoStack(String id)
         {
-            Elemento_Stack temp = top;
+            Elemento_Stack temp = Top;
             if (temp != null)
             {
                 while (temp != null)
@@ -79,7 +81,7 @@ namespace _OLC2_Proyecto1_201801229.Estructuras
 
         public void vaciarStack()
         {
-            top = null;
+            Top = null;
         }
     }
 }

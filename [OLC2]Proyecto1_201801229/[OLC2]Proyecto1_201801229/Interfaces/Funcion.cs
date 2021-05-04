@@ -162,21 +162,33 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
         }
         public Object traduccion(Estructura_Stack stack, Estructura_Heap heap, LinkedList<String> temporales, ref int sp, ref int hp, ref int t, ref int l)
         {
+            int spFunc = parametros.Count;
+
+            Estructura_Stack StckFunc = new Estructura_Stack();
+            StckFunc.agregarStack(stack.Top);
+            int j = 0;
+            foreach (ParametroFP par in parametros)
+            {
+                StckFunc.agregarStack(new Elemento_Stack(par.Id,par.Tipo,j,0,null,true));
+                j++;
+            }
             GeneradorAST.funcionActual = this;
             String retornar = "";
-            int spRefe = sp;
+            String temp = "T" + t;
+            temporales.AddLast("T"+t);
+            t++;
             retornar += "void " + id.ToLower() + "(){\n";
-            retornar += "Stack[(int)SP]=0;\nSP=SP+1;\n";
-            stack.agregarStack(new Elemento_Stack(id.ToString(), Retorno, sp, 0, null));
-            sp++;
+            retornar += temp + "=SP+" + spFunc+";\n";
+            retornar += "Stack[(int)"+temp+"]=0;\n";
+            StckFunc.agregarStack(new Elemento_Stack(id.ToString(), Retorno, spFunc, 0, null,true));
+            spFunc++;
             if (Instrucciones != null)
             {
                 foreach (Instruccion inst in Instrucciones)
                 {
                     if (inst != null)
                     {
-
-                        retornar += inst.traduccion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
+                        retornar += inst.traduccion(StckFunc, heap, temporales, ref spFunc, ref hp, ref t, ref l).ToString();
                     }
                 }
             }
@@ -186,13 +198,13 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                 {
                     if (inst != null)
                     {
-                        retornar += inst.traduccion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
+                        retornar += inst.traduccion(StckFunc, heap, temporales, ref spFunc, ref hp, ref t, ref l).ToString();
                     }
                 }
             }
             retornar += "Retornar"+id.ToLower()+":\n";
-            retornar += "SP=" + spRefe+";\n";
             retornar += "return;\n}\n";
+            GeneradorAST.funcionActual = null;
             return retornar;
         }
     }

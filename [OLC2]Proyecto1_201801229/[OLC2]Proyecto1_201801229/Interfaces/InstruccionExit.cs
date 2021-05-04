@@ -54,6 +54,7 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                         cadena += valores;
                     }
                     cadena += "Stack[" + elementoStack.ReferenciaStack + "]=" + valores.Split("\n")[valores.Split("\n").Length - 2].Split("=")[0].Split(";")[0] + ";\n";
+                    cadena += "goto Retornar" + GeneradorAST.funcionActual.Id.ToLower() + ";\n";
                     return cadena;
                 }
             }
