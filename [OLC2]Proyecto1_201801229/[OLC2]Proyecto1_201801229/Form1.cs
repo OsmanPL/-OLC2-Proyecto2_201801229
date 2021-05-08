@@ -138,6 +138,7 @@ namespace _OLC2_Proyecto1_201801229
         private void Optimizar_Click(object sender, EventArgs e)
         {
             Consola.Text=optimizador.Optimizacion(Consola.Text);
+            MessageBox.Show("Optimizacion terminada \nOptimizaciones realizadas: "+optimizador.Listaoptimizacion.Count,"Optimizacion");
         }
     }
 }

@@ -128,6 +128,8 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
             retornar += "Retornar"+this.Id.ToLower()+":\n";
             retornar += "return;\n}\n";
             GeneradorAST.procedimientoActual = null;
+            stack.vaciarStack();
+            stack.agregarStack(StckFunc.Top);
             return retornar;
         }
     }

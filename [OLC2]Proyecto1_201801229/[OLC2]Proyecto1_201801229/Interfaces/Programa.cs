@@ -4,6 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
+using System.Collections;
+using System.IO;
+using System.Linq;
 
 namespace _OLC2_Proyecto1_201801229.Interfaces
 {
@@ -135,16 +138,24 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
             funciones += "printf(\"%c\",(char)69);\n" + etiqueta3 + ":\nreturn;\n";
             funciones += "}\n";
 
+            LinkedList<String> funcionesAnidadas = new LinkedList<string>();
 
             if (GeneradorAST.funcionesYprocedimientos != null)
             {
-                foreach (Instruccion inst in GeneradorAST.funcionesYprocedimientos)
+
+                for (int i =GeneradorAST.funcionesYprocedimientos.Count-1;i>=0;i--)
                 {
-                    if (inst != null)
+                    Instruccion inst = GeneradorAST.funcionesYprocedimientos.ElementAt(i);
+                    if (inst!=null)
                     {
-                        funciones += inst.traduccion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
+                        funcionesAnidadas.AddLast(inst.traduccion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString());
                     }
                 }
+            }
+
+            for (int i = funcionesAnidadas.Count - 1; i >= 0; i--)
+            {
+                funciones += funcionesAnidadas.ElementAt(i);
             }
 
             if (temporales.Count > 0)
