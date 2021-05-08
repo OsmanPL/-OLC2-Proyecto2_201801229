@@ -162,16 +162,20 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
         }
         public Object traduccion(Estructura_Stack stack, Estructura_Heap heap, LinkedList<String> temporales, ref int sp, ref int hp, ref int t, ref int l)
         {
-            int spFunc = parametros.Count;
+            int spFunc = parametros!=null? parametros.Count:0;
 
             Estructura_Stack StckFunc = new Estructura_Stack();
             StckFunc.agregarStack(stack.Top);
             int j = 0;
-            foreach (ParametroFP par in parametros)
+            if (parametros!=null)
             {
-                StckFunc.agregarStack(new Elemento_Stack(par.Id,par.Tipo,j,0,null,true));
-                j++;
+                foreach (ParametroFP par in parametros)
+                {
+                    StckFunc.agregarStack(new Elemento_Stack(par.Id, par.Tipo, j, 0, null, true));
+                    j++;
+                }
             }
+            
             GeneradorAST.funcionActual = this;
             String retornar = "";
             String temp = "T" + t;

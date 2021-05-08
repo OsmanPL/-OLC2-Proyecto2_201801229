@@ -50,6 +50,7 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
         }
         public Object traduccion(Estructura_Stack stack, Estructura_Heap heap, LinkedList<String> temporales, ref int sp, ref int hp, ref int t, ref int l)
         {
+            String tempoV = GeneradorAST.LV, tempoF = GeneradorAST.LF;
             String retornar = "";
             String retornarCondicion = condicion.traduccionCondicion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
             String[] condicionNot = retornarCondicion.Split("!");
@@ -141,7 +142,8 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                     conteoNot = 0;
                 }
             }
-
+            GeneradorAST.LV = falsedad;
+            GeneradorAST.LF = inicioWhile;
 
             if (sentencias != null)
             {
@@ -153,6 +155,9 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                 retornar += "goto " + inicioWhile + ";\n";
             }
             retornar += falsedad + ":\n";
+
+            GeneradorAST.LV = tempoV;
+            GeneradorAST.LF = tempoF;
             return retornar;
         }
     }

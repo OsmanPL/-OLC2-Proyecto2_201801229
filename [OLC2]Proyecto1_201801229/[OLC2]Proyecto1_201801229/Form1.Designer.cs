@@ -42,6 +42,7 @@ namespace _OLC2_Proyecto1_201801229
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.timer2 = new System.Windows.Forms.Timer(this.components);
+            this.Optimizar = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -88,6 +89,7 @@ namespace _OLC2_Proyecto1_201801229
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.Optimizar);
             this.groupBox1.Controls.Add(this.Compilar);
             this.groupBox1.Controls.Add(this.Reportes);
             this.groupBox1.Controls.Add(this.Cargar);
@@ -111,7 +113,7 @@ namespace _OLC2_Proyecto1_201801229
             // 
             // Reportes
             // 
-            this.Reportes.Location = new System.Drawing.Point(408, 57);
+            this.Reportes.Location = new System.Drawing.Point(259, 57);
             this.Reportes.Name = "Reportes";
             this.Reportes.Size = new System.Drawing.Size(232, 52);
             this.Reportes.TabIndex = 12;
@@ -155,6 +157,16 @@ namespace _OLC2_Proyecto1_201801229
             // 
             this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
             // 
+            // Optimizar
+            // 
+            this.Optimizar.Location = new System.Drawing.Point(527, 57);
+            this.Optimizar.Name = "Optimizar";
+            this.Optimizar.Size = new System.Drawing.Size(232, 52);
+            this.Optimizar.TabIndex = 15;
+            this.Optimizar.Text = "Optimizar";
+            this.Optimizar.UseVisualStyleBackColor = true;
+            this.Optimizar.Click += new System.EventHandler(this.Optimizar_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -193,6 +205,7 @@ namespace _OLC2_Proyecto1_201801229
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Timer timer2;
         public System.Windows.Forms.RichTextBox Consola;
+        private System.Windows.Forms.Button Optimizar;
     }
 }
 

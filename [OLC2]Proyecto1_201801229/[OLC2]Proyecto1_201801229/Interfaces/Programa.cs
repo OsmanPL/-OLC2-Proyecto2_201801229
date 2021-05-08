@@ -65,7 +65,7 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                     if (inst.GetType() == typeof(Funcion))
                     {
                         Funcion func = (Funcion)inst;
-                        int pos = func.Parametros.Count;
+                        int pos = func.Parametros!=null?func.Parametros.Count:0;
                         stack.agregarStack(new Elemento_Stack(func.Id,func.Retorno,pos,0,null,false));
                     }
                 }

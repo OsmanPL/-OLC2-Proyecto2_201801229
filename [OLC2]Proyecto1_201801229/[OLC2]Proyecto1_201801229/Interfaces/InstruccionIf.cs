@@ -78,13 +78,18 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
         {
             String retornar = "";
             String retornarCondicion = condicion.traduccionCondicion(stack,heap,temporales,ref sp, ref hp, ref t ,ref l).ToString();
-            String[] condicionNot = retornarCondicion.Split("!");
+            String[] condicionNot = retornarCondicion.Split("@");
             String finalif = "L" + l;
             l++;
             String verdadero = "", falso = "", falsedad = "";
             int conteoNot = 0;
             for (int k=0; k<condicionNot.Length;k++)
             {
+                if (k == 0)
+                {
+                    falsedad = "L" + l;
+                    l++;
+                }
                 if (condicionNot[k].Equals(""))
                 {
                     conteoNot++;
@@ -95,10 +100,15 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
 
                     for (int i = 0; i < condicionAnd.Length; i++)
                     {
+                        if (condicionAnd[i].Equals(""))
+                        {
+                            continue;
+                        }
                         if (!verdadero.Equals(""))
                         {
                             retornar += verdadero + ":\n";
                         }
+                        
                         verdadero = "L" + l;
                         l++;
                         String condAnd = condicionAnd[i];
@@ -109,12 +119,7 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                             {
                                 retornar += falso + ":\n";
                             }
-                            if (i == 0)
-                            {
-                                falso = "L" + l;
-                                falsedad = falso;
-                                l++;
-                            }
+                            
                             String condOr = condicionOr[j];
                             String[] lineasOR = condOr.Split("\n");
                             foreach (String linea in lineasOR)
@@ -131,7 +136,29 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                                         }
                                         else
                                         {
-                                            retornar += "if (" + linea.Split("=")[0] + ")goto " + verdadero + ";\ngoto " + falso + ";\n";
+                                            String lin = linea;
+                                            if (linea.StartsWith("T"))
+                                            {
+                                                retornar += linea + "\n";
+                                            }
+                                            else
+                                            {
+                                                if (conteoNot % 2 == 0)
+                                                {
+                                                    if (linea.Equals("0"))
+                                                    {
+                                                        lin = "1";
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    if (linea.Equals("1"))
+                                                    {
+                                                        lin = "0";
+                                                    }
+                                                }
+                                            }
+                                            retornar += "if (" + lin.Split("=")[0] + ")goto " + verdadero + ";\ngoto " + falso + ";\n";
                                         }
 
                                     }
@@ -143,7 +170,30 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                                         }
                                         else
                                         {
-                                            retornar += "if (" + linea.Split("=")[0] + ")goto " + verdadero + ";\ngoto " + falsedad + ";\n";
+                                            String lin = linea;
+                                            if (linea.StartsWith("T"))
+                                            {
+                                                retornar += linea + "\n";
+                                            }
+                                            else
+                                            {
+                                                if (conteoNot % 2 == 0)
+                                                {
+                                                    if (linea.Equals("0"))
+                                                    {
+                                                        lin = "1";
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    if (linea.Equals("1"))
+                                                    {
+                                                        lin = "0";
+                                                    }
+                                                }
+                                            }
+
+                                            retornar += "if (" + lin.Split("=")[0] + ")goto " + verdadero + ";\ngoto " + falsedad + ";\n";
                                         }
                                         if (!(conteoNot%2==0) && i == condicionAnd.Length-1)
                                         {

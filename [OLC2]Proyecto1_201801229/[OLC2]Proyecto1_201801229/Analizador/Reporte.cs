@@ -110,6 +110,88 @@ namespace _OLC2_Proyecto1_201801229.Analizador
 
         }
 
+        public void Html_Optimizacion(LinkedList<Optimizacion> listaError)
+        {
+
+            String Contenido_html;
+            Contenido_html = "<html><head><meta charset=\u0022utf-8\u0022></head>\n" +
+            "<body>" +
+            "<h1 align='center'>OPTIMIZACIONES REALIZADAS</h1></br>" +
+            "<table cellpadding='10' border = '1' align='center'>" +
+            "<tr>" +
+            "<td><strong>ID" +
+            "</strong></td>" +
+            "<td><strong>Tipo Optimizacion" +
+            "</strong></td>" +
+            "<td><strong>Regla Utilziada" +
+            "</strong></td>" +
+            "<td><strong>Fila" +
+            "</strong></td>" +
+            "<td><strong>Codigo Agregado" +
+            "</strong></td>" +
+            "<td><strong>Codigo Eliminado" +
+            "</strong></td>" +
+            "<td><strong>Codigo de Entrada" +
+            "</strong></td>" +
+            "<td><strong>Codigo de Salida" +
+            "</strong></td>" +
+            "</tr>";
+
+            String Cad_tokens = "";
+            String tempo_tokens;
+
+            for (int i = 0; i < listaError.Count; i++)
+            {
+                Optimizacion sen_pos = listaError.ElementAt(i);
+
+                tempo_tokens = "";
+                tempo_tokens = "<tr>" +
+
+                "<td>" + sen_pos.Id +
+                "</td>" +
+
+                "<td>" + sen_pos.Tipo.ToString() +
+                "</td>" +
+
+                "<td>" + sen_pos.Regla.ToString() +
+                "</td>" +
+
+                "<td>" + sen_pos.Fila +
+                "</td>" +
+
+                "<td>" + sen_pos.Cod_agregado +
+                "</td>" +
+
+                "<td>" + sen_pos.Cod_eliminado +
+                "</td>" +
+
+                "<td>" + sen_pos.Cod_entrada +
+                "</td>" +
+
+                "<td>" + sen_pos.Cod_salida +
+                "</td>" +
+
+                "</tr>";
+                Cad_tokens = Cad_tokens + tempo_tokens;
+
+            }
+
+            Contenido_html = Contenido_html + Cad_tokens +
+            "</table>" +
+            "</body>" +
+            "</html>";
+
+            File.WriteAllText("C:\\compiladores2\\Reporte_de_Optimizacion.html", Contenido_html);
+            var p = new Process();
+            p.StartInfo = new ProcessStartInfo(@"C:\compiladores2\Reporte_de_Optimizacion.html")
+            {
+                UseShellExecute = true
+            };
+            p.Start();
+
+
+        }
+
         public void HTML_ts(TablaSimbolos ts)
         {
 

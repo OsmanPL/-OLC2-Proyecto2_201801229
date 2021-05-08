@@ -16,6 +16,8 @@ namespace _OLC2_Proyecto1_201801229.Analizador
 {
     class GeneradorAST
     {
+        public static String LV, LF;
+        public static InstruccionCase caseActual;
         public static LinkedList<Funcion> funciones = new LinkedList<Funcion>();
         public static LinkedList<Procedimiento> procedimientos = new LinkedList<Procedimiento>();
         public static LinkedList<InstruccionType> type = new LinkedList<InstruccionType>();
@@ -24,6 +26,7 @@ namespace _OLC2_Proyecto1_201801229.Analizador
         public static TablaSimbolos tablaCompleta = new TablaSimbolos("Completa");
         public static LinkedList<Instruccion> funcionesYprocedimientos;
         public static Funcion funcionActual;
+        public static Procedimiento procedimientoActual;
         public Estructura_Heap heap = new Estructura_Heap();
         public Estructura_Stack stack = new Estructura_Stack();
         public static Pila_Funcion pilaFuncion = new Pila_Funcion();
@@ -37,6 +40,8 @@ namespace _OLC2_Proyecto1_201801229.Analizador
         }
         public void analizar(string codigo, RichTextBox consola)
         {
+            LV = "";
+            LF = "";
             Gramatica gramatica = new Gramatica();
             LanguageData lenguaje = new LanguageData(gramatica);
             Parser parser = new Parser(lenguaje);
@@ -51,6 +56,8 @@ namespace _OLC2_Proyecto1_201801229.Analizador
             temporales = new LinkedList<String>();
             funcionesYprocedimientos = new LinkedList<Instruccion>();
             funcionActual = null;
+            procedimientoActual = null;
+            caseActual = null;
             pilaFuncion.vaciarPila();
             stack.vaciarStack();
             heap.vaciarHeap();

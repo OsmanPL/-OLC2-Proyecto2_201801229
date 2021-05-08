@@ -12,7 +12,6 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
         private Object valor;
         private String type;
         private String entorno;
-        private int referenciaStack;
 
         public Simbolo(String id, TipoDato tipo, Object valor, String entorno, TipoVarariable tipoVar)
         {

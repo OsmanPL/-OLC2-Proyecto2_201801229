@@ -17,6 +17,7 @@ namespace _OLC2_Proyecto1_201801229
     {
 
         GeneradorAST ejecutar = new GeneradorAST();
+        Optimizador optimizador = new Optimizador();
         int caracter;
         int caracter2;
         public Form1()
@@ -80,6 +81,7 @@ namespace _OLC2_Proyecto1_201801229
             {
                 reporte.graficarArbol(ejecutar.retornarRaiz());
                 reporte.HTML_ts(GeneradorAST.tablaCompleta);
+                reporte.Html_Optimizacion(optimizador.Listaoptimizacion);
             }
 
             reporte.Html_Errores(GeneradorAST.listaErrores);
@@ -131,6 +133,11 @@ namespace _OLC2_Proyecto1_201801229
         private void timer2_Tick(object sender, EventArgs e)
         {
             pictureBox2.Refresh();
+        }
+
+        private void Optimizar_Click(object sender, EventArgs e)
+        {
+            Consola.Text=optimizador.Optimizacion(Consola.Text);
         }
     }
 }

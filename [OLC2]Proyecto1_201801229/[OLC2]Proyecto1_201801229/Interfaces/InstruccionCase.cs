@@ -53,6 +53,7 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
         public Object traduccion(Estructura_Stack stack, Estructura_Heap heap, LinkedList<String> temporales, ref int sp, ref int hp, ref int t, ref int l)
         {
             string retornar = "";
+            GeneradorAST.caseActual = this;
             if (condicion!=null)
             {
                 foreach (Operacion op in condicion)
@@ -68,6 +69,7 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                     retornar += "break;\n";
                 }
             }
+            GeneradorAST.caseActual = null ;
             return retornar;
         }
     }

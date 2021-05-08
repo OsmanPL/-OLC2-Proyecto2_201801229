@@ -835,7 +835,7 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                 case Tipo_operacion.SUMA:
                     valorIzquierdo = operadorIzq.traduccion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
                     valorDerecho = operadorDer.traduccion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
-                    if (GeneradorAST.funcionActual != null)
+                    if (GeneradorAST.funcionActual != null||GeneradorAST.procedimientoActual!=null)
                     {
                         if (valorDerecho.Contains("T"))
                         {
@@ -866,7 +866,7 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                 case Tipo_operacion.RESTA:
                     valorIzquierdo = operadorIzq.traduccion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
                     valorDerecho = operadorDer.traduccion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
-                    if (GeneradorAST.funcionActual != null)
+                    if (GeneradorAST.funcionActual != null||GeneradorAST.procedimientoActual!=null)
                     {
                         if (valorDerecho.Contains("T"))
                         {
@@ -896,7 +896,7 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                 case Tipo_operacion.MULTIPLICACION:
                     valorIzquierdo = operadorIzq.traduccion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
                     valorDerecho = operadorDer.traduccion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
-                    if (GeneradorAST.funcionActual != null)
+                    if (GeneradorAST.funcionActual != null||GeneradorAST.procedimientoActual!=null)
                     {
                         if (valorDerecho.Contains("T"))
                         {
@@ -925,7 +925,7 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                 case Tipo_operacion.DIVISION:
                     valorIzquierdo = operadorIzq.traduccion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
                     valorDerecho = operadorDer.traduccion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
-                    if (GeneradorAST.funcionActual != null)
+                    if (GeneradorAST.funcionActual != null||GeneradorAST.procedimientoActual!=null)
                     {
                         if (valorDerecho.Contains("T"))
                         {
@@ -955,7 +955,7 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                 case Tipo_operacion.MODULAR:
                     valorIzquierdo = operadorIzq.traduccion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
                     valorDerecho = operadorDer.traduccion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
-                    if (GeneradorAST.funcionActual != null)
+                    if (GeneradorAST.funcionActual != null||GeneradorAST.procedimientoActual!=null)
                     {
                         if (valorDerecho.Contains("T"))
                         {
@@ -984,15 +984,21 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                     return retornar;
                 case Tipo_operacion.NEGATIVO:
                     valorIzquierdo = operadorIzq.traduccion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
-
-                    if (valorIzquierdo.Contains("T"))
+                    if (GeneradorAST.caseActual!=null)
                     {
-                        retornar += valorIzquierdo;
+                        retornar += "-" + valorIzquierdo.Split("\n")[valorIzquierdo.Split("\n").Length - 2].Split("=")[0].Split(";")[0];
                     }
-                    retornar += "T" + t + "= -" + valorIzquierdo.Split("\n")[valorIzquierdo.Split("\n").Length - 2].Split("=")[0].Split(";")[0] + ";\n";
+                    else
+                    {
+                        if (valorIzquierdo.Contains("T"))
+                        {
+                            retornar += valorIzquierdo;
+                        }
+                        retornar += "T" + t + "= -" + valorIzquierdo.Split("\n")[valorIzquierdo.Split("\n").Length - 2].Split("=")[0].Split(";")[0] + ";\n";
 
-                    temporales.AddLast("T" + t);
-                    t++;
+                        temporales.AddLast("T" + t);
+                        t++;
+                    }
                     return retornar;
 
                 case Tipo_operacion.CONCAT:
@@ -1066,7 +1072,7 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                     }
                     else
                     {
-                        if (GeneradorAST.funcionActual != null)
+                        if (GeneradorAST.funcionActual != null||GeneradorAST.procedimientoActual!=null)
                         {
                             if (elemntoStack.Fu)
                             {
@@ -1099,7 +1105,7 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                     try
                     {
                         Elemento_Funcion elementoFucnion = GeneradorAST.pilaFuncion.buscar(id);
-                        if (GeneradorAST.funcionActual != null)
+                        if (GeneradorAST.funcionActual != null||GeneradorAST.procedimientoActual!=null)
                         {
                             if (elementoFucnion.Funcion.GetType() == typeof(Funcion))
                             {
@@ -1140,7 +1146,7 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                                         temporales.AddLast(temp3);
                                         t++;
                                         retornarParametro += temp1 + "=SP+1;\n";
-                                        retornarParametro += temp2 + "=" + temp1 + "+" + (int)(sp - 1) + ";\n";
+                                        retornarParametro += temp2 + "=" + temp1 + "+" + (sp > 0 ? (int)(sp - 1) : 0) + ";\n";
                                         retornarParametro += temp3 + "=" + temp2 + "+" + j + ";\n";
                                         retornarParametro += "Stack[(int)" + temp3 + "]=" + refH + ";\n";
                                         temporales.AddLast("T" + t);
@@ -1160,7 +1166,7 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                                         temporales.AddLast(temp3);
                                         t++;
                                         retornarParametro += temp1 + "=SP+1;\n";
-                                        retornarParametro += temp2 + "=" + temp1 + "+" + (int)(sp - 1) + ";\n";
+                                        retornarParametro += temp2 + "=" + temp1 + "+" + (sp > 0 ? (int)(sp - 1) : 0) + ";\n";
                                         retornarParametro += temp3 + "=" + temp2 + "+" + j + ";\n";
                                         retornarParametro += "Stack[(int)" + temp3 + "]=" + temp + ";\n";
                                         temporales.AddLast("T" + t);
@@ -1173,20 +1179,92 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                                 {
                                     retornar += parametros.ElementAt(i);
                                 }
-                                retornar += "SP=SP+1;\nSP=SP+" + (int)(sp - 1) + ";\n";
+                                retornar += "SP=SP+1;\nSP=SP+" + (sp > 0 ? (int)(sp - 1) : 0) + ";\n";
                                 retornar += id.ToLower() + "();\n";
                                 String t2 = "T" + t;
                                 temporales.AddLast("T" + t);
                                 t++;
                                 retornar += t2 + "=SP+" + func.Parametros.Count + ";\n";
-                                retornar += "SP=SP-1;\nSP=SP-" + (int)(sp - 1) + ";\n";
+                                retornar += "SP=SP-1;\nSP=SP-" + (sp > 0 ? (int)(sp - 1) : 0) + ";\n";
                                 retornar += "T" + t + "=Stack[(int)" + t2 + "];\n";
                                 temporales.AddLast("T" + t);
                                 t++;
                             }
                             else if (elementoFucnion.Funcion.GetType() == typeof(Procedimiento))
                             {
+                                Procedimiento func = (Procedimiento)elementoFucnion.Funcion;
+
+                                int j = 0;
+                                LinkedList<String> parametros = new LinkedList<string>();
+                                foreach (ParametroFP par in func.Parametros)
+                                {
+                                    String valu = valores.ElementAt(j).traduccion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
+                                    String retornarParametro = "";
+                                    if (valu.Contains("T"))
+                                    {
+                                        retornarParametro += valu;
+                                    }
+                                    if (par.Tipo == Simbolo.TipoDato.STRING)
+                                    {
+                                        int refH = hp;
+                                        for (int i = 0; i < valu.Length; i++)
+                                        {
+                                            char c = valu[i];
+                                            retornar += "Heap[(int)HP]=" + (int)c + ";\n";
+                                            heap.agregarHeap(new Elemento_Heap((int)c, hp, null));
+                                            retornar += "HP=HP+1;\n";
+                                            hp++;
+                                        }
+                                        retornar += "Heap[(int)HP]=-1;\n";
+                                        heap.agregarHeap(new Elemento_Heap(-1, hp, null));
+                                        retornar += "HP=HP+1;\n";
+                                        hp++;
+                                        String temp1 = "T" + t;
+                                        temporales.AddLast(temp1);
+                                        t++;
+                                        String temp2 = "T" + t;
+                                        temporales.AddLast(temp2);
+                                        t++;
+                                        String temp3 = "T" + t;
+                                        temporales.AddLast(temp3);
+                                        t++;
+                                        retornar += temp1 + "=SP+1;\n";
+                                        retornar += temp2 + "=" + temp1 + "+" + (sp > 0 ? (int)(sp - 1) : 0) + ";\n";
+                                        retornar += temp3 + "=" + temp2 + "+" + j + ";\n";
+                                        retornar += "Stack[(int)" + temp3 + "]=" + refH + ";\n";
+                                        temporales.AddLast("T" + t);
+                                        t++;
+                                    }
+                                    else
+                                    {
+                                        String[] valores = valu.Split("\n");
+                                        String temp = valores[valores.Length - 2].Split("=")[0].Split(";")[0];
+                                        String temp1 = "T" + t;
+                                        temporales.AddLast(temp1);
+                                        t++;
+                                        String temp2 = "T" + t;
+                                        temporales.AddLast(temp2);
+                                        t++;
+                                        String temp3 = "T" + t;
+                                        temporales.AddLast(temp3);
+                                        t++;
+                                        retornarParametro += temp1 + "=SP+1;\n";
+                                        retornarParametro += temp2 + "=" + temp1 + "+" + (sp > 0 ? (int)(sp - 1) : 0) + ";\n";
+                                        retornarParametro += temp3 + "=" + temp2 + "+" + j + ";\n";
+                                        retornarParametro += "Stack[(int)" + temp3 + "]=" + temp + ";\n";
+                                        temporales.AddLast("T" + t);
+                                        t++;
+                                        parametros.AddLast(retornarParametro);
+                                    }
+                                    j++;
+                                }
+                                for (int i = parametros.Count - 1; i >= 0; i--)
+                                {
+                                    retornar += parametros.ElementAt(i);
+                                }
+                                retornar += "SP=SP+1;\nSP=SP+" + (sp > 0 ? (int)(sp - 1) : 0) + ";\n";
                                 retornar += id.ToLower() + "();\n";
+                                retornar += "SP=SP-1;\nSP=SP-" + (sp > 0 ? (int)(sp - 1) : 0) + ";\n";
                             }
                         }
                         else
@@ -1258,7 +1336,61 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                             }
                             else if (elementoFucnion.Funcion.GetType() == typeof(Procedimiento))
                             {
+                                Procedimiento func = (Procedimiento)elementoFucnion.Funcion;
+                                int te = sp;
+                                String t1 = "T" + t;
+                                temporales.AddLast("T" + t);
+                                t++;
+                                retornar += t1 + "=SP;\n";
+                                int j = 0;
+                                LinkedList<String> parametros = new LinkedList<string>();
+                                retornar += "SP=SP+1;\n";
+                                foreach (ParametroFP par in func.Parametros)
+                                {
+                                    String valu = valores.ElementAt(j).traduccion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
+                                    String retornarParametro = "";
+                                    if (valu.Contains("T"))
+                                    {
+                                        retornar += valu;
+                                    }
+                                    if (par.Tipo == Simbolo.TipoDato.STRING)
+                                    {
+                                        int refH = hp;
+                                        for (int i = 0; i < valu.Length; i++)
+                                        {
+                                            char c = valu[i];
+                                            retornar += "Heap[(int)HP]=" + (int)c + ";\n";
+                                            heap.agregarHeap(new Elemento_Heap((int)c, hp, null));
+                                            retornar += "HP=HP+1;\n";
+                                            hp++;
+                                        }
+                                        retornar += "Heap[(int)HP]=-1;\n";
+                                        heap.agregarHeap(new Elemento_Heap(-1, hp, null));
+                                        retornar += "HP=HP+1;\n";
+                                        hp++;
+                                        retornar += "T" + t + "=SP+" + j + ";\n";
+                                        retornar += "Stack[(int)T" + t + "]=" + refH + ";\n";
+                                        temporales.AddLast("T" + t);
+                                        t++;
+                                    }
+                                    else
+                                    {
+                                        String[] valores = valu.Split("\n");
+                                        String temp = valores[valores.Length - 2].Split("=")[0].Split(";")[0];
+                                        retornarParametro += "T" + t + "=SP+" + j + ";\n";
+                                        retornarParametro += "Stack[(int)T" + t + "]=" + temp + ";\n";
+                                        temporales.AddLast("T" + t);
+                                        t++;
+                                        parametros.AddLast(retornarParametro);
+                                    }
+                                    j++;
+                                }
+                                for (int i = parametros.Count - 1; i >= 0; i--)
+                                {
+                                    retornar += parametros.ElementAt(i);
+                                }
                                 retornar += id.ToLower() + "();\n";
+                                retornar += "SP=" + t1 + ";\n";
                             }
                         }
                         return retornar;
@@ -1272,28 +1404,59 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                     try
                     {
                         Elemento_Funcion elementoFucnion = GeneradorAST.pilaFuncion.buscar(id);
-                        if (elementoFucnion.Funcion.GetType() == typeof(Funcion))
+                        if (GeneradorAST.funcionActual != null || GeneradorAST.procedimientoActual != null)
                         {
-                            int te = sp;
-                            String t1 = "T" + t;
-                            temporales.AddLast("T" + t);
-                            t++;
-                            retornar += t1 + "=SP;\n";
+                            if (elementoFucnion.Funcion.GetType() == typeof(Funcion))
+                            {
+                                Funcion func = (Funcion)elementoFucnion.Funcion;
+                                retornar += "SP=SP+1;\nSP=SP+" + (sp > 0 ? (int)(sp - 1) : 0) + ";\n";
+                                retornar += id.ToLower() + "();\n";
+                                String t2 = "T" + t;
+                                temporales.AddLast("T" + t);
+                                t++;
+                                retornar += t2 + "=SP+0;\n";
+                                retornar += "SP=SP-1;\nSP=SP-" + (sp > 0 ? (int)(sp - 1) : 0) + ";\n";
+                                retornar += "T" + t + "=Stack[(int)" + t2 + "];\n";
+                                temporales.AddLast("T" + t);
+                                t++;
+                            }
+                            else if (elementoFucnion.Funcion.GetType() == typeof(Procedimiento))
+                            {
+                                retornar += "SP=SP+1;\nSP=SP+" + (sp > 0 ? (int)(sp - 1) : 0) + ";\n";
+                                retornar += id.ToLower() + "();\n";
+                                retornar += "SP=SP-1;\nSP=SP-" + (sp > 0 ? (int)(sp - 1) : 0) + ";\n";
+                            }
+                        }
+                        else
+                        {
+                            if (elementoFucnion.Funcion.GetType() == typeof(Funcion))
+                            {
 
-                            retornar += id.ToLower() + "();\n";
-                            String t2 = "T" + t;
-                            temporales.AddLast("T" + t);
-                            t++;
-                            retornar += t2 + "=SP;\n";
-                            retornar += "SP=" + t1 + ";\n";
-                            retornar += "T" + t + "=Stack[(int)" + t2 + "];\n";
-                            temporales.AddLast("T" + t);
-                            t++;
+                                String t1 = "T" + t;
+                                temporales.AddLast("T" + t);
+                                t++;
+                                retornar += t1 + "=SP;\nSP=SP+1;\n";
+                                retornar += id.ToLower() + "();\n";
+                                String t2 = "T" + t;
+                                temporales.AddLast("T" + t);
+                                t++;
+                                retornar += t2 + "=SP;\n";
+                                retornar += "SP=" + t1 + ";\n";
+                                retornar += "T" + t + "=Stack[(int)" + t2 + "];\n";
+                                temporales.AddLast("T" + t);
+                                t++;
+                            }
+                            else if (elementoFucnion.Funcion.GetType() == typeof(Procedimiento))
+                            {
+                                String t1 = "T" + t;
+                                temporales.AddLast("T" + t);
+                                t++;
+                                retornar += t1 + "=SP;\nSP=SP+1;\n";
+                                retornar += id.ToLower() + "();\n";
+                                retornar += "SP=" + t1 + ";\n";
+                            }
                         }
-                        else if (elementoFucnion.Funcion.GetType() == typeof(Procedimiento))
-                        {
-                            retornar += id.ToLower() + "();\n";
-                        }
+
                         return retornar;
                     }
                     catch (Exception e)
@@ -1328,7 +1491,7 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                 case Tipo_operacion.AND:
                     valorIzquierdo = operadorIzq.traduccionCondicion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
                     valorDerecho = operadorDer.traduccionCondicion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
-                    retornar += valorIzquierdo + "&&" + valorDerecho;
+                    retornar += valorIzquierdo + "&&" + valorDerecho ;
                     return retornar;
                 case Tipo_operacion.OR:
                     valorIzquierdo = operadorIzq.traduccionCondicion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
@@ -1338,7 +1501,7 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                 case Tipo_operacion.NOT:
                     valorIzquierdo = operadorIzq.traduccionCondicion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
 
-                    retornar += "!" + valorIzquierdo;
+                    retornar += "@" + valorIzquierdo;
                     return retornar;
 
                 //Operaciones Relacionales
@@ -1431,13 +1594,27 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                 case Tipo_operacion.SUMA:
                     valorIzquierdo = operadorIzq.traduccionCondicion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
                     valorDerecho = operadorDer.traduccionCondicion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
-                    if (valorIzquierdo.Contains("T"))
+                    if (GeneradorAST.funcionActual != null||GeneradorAST.procedimientoActual!=null)
                     {
-                        retornar += valorIzquierdo;
+                        if (valorDerecho.Contains("T"))
+                        {
+                            retornar += valorDerecho;
+                        }
+                        if (valorIzquierdo.Contains("T"))
+                        {
+                            retornar += valorIzquierdo;
+                        }
                     }
-                    if (valorDerecho.Contains("T"))
+                    else
                     {
-                        retornar += valorDerecho;
+                        if (valorIzquierdo.Contains("T"))
+                        {
+                            retornar += valorIzquierdo;
+                        }
+                        if (valorDerecho.Contains("T"))
+                        {
+                            retornar += valorDerecho;
+                        }
                     }
                     retornar += "T" + t + "= " + valorIzquierdo.Split("\n")[valorIzquierdo.Split("\n").Length - 2].Split("=")[0].Split(";")[0] + "+" + valorDerecho.Split("\n")[valorDerecho.Split("\n").Length - 2].Split("=")[0].Split(";")[0] + ";\n";
 
@@ -1447,13 +1624,27 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                 case Tipo_operacion.RESTA:
                     valorIzquierdo = operadorIzq.traduccionCondicion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
                     valorDerecho = operadorDer.traduccionCondicion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
-                    if (valorIzquierdo.Contains("T"))
+                    if (GeneradorAST.funcionActual != null||GeneradorAST.procedimientoActual!=null)
                     {
-                        retornar += valorIzquierdo;
+                        if (valorDerecho.Contains("T"))
+                        {
+                            retornar += valorDerecho;
+                        }
+                        if (valorIzquierdo.Contains("T"))
+                        {
+                            retornar += valorIzquierdo;
+                        }
                     }
-                    if (valorDerecho.Contains("T"))
+                    else
                     {
-                        retornar += valorDerecho;
+                        if (valorIzquierdo.Contains("T"))
+                        {
+                            retornar += valorIzquierdo;
+                        }
+                        if (valorDerecho.Contains("T"))
+                        {
+                            retornar += valorDerecho;
+                        }
                     }
                     retornar += "T" + t + "= " + valorIzquierdo.Split("\n")[valorIzquierdo.Split("\n").Length - 2].Split("=")[0].Split(";")[0] + "-" + valorDerecho.Split("\n")[valorDerecho.Split("\n").Length - 2].Split("=")[0].Split(";")[0] + ";\n";
 
@@ -1463,13 +1654,27 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                 case Tipo_operacion.MULTIPLICACION:
                     valorIzquierdo = operadorIzq.traduccionCondicion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
                     valorDerecho = operadorDer.traduccionCondicion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
-                    if (valorIzquierdo.Contains("T"))
+                    if (GeneradorAST.funcionActual != null||GeneradorAST.procedimientoActual!=null)
                     {
-                        retornar += valorIzquierdo;
+                        if (valorDerecho.Contains("T"))
+                        {
+                            retornar += valorDerecho;
+                        }
+                        if (valorIzquierdo.Contains("T"))
+                        {
+                            retornar += valorIzquierdo;
+                        }
                     }
-                    if (valorDerecho.Contains("T"))
+                    else
                     {
-                        retornar += valorDerecho;
+                        if (valorIzquierdo.Contains("T"))
+                        {
+                            retornar += valorIzquierdo;
+                        }
+                        if (valorDerecho.Contains("T"))
+                        {
+                            retornar += valorDerecho;
+                        }
                     }
                     retornar += "T" + t + "= " + valorIzquierdo.Split("\n")[valorIzquierdo.Split("\n").Length - 2].Split("=")[0].Split(";")[0] + "*" + valorDerecho.Split("\n")[valorDerecho.Split("\n").Length - 2].Split("=")[0].Split(";")[0] + ";\n";
                     temporales.AddLast("T" + t);
@@ -1478,13 +1683,27 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                 case Tipo_operacion.DIVISION:
                     valorIzquierdo = operadorIzq.traduccionCondicion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
                     valorDerecho = operadorDer.traduccionCondicion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
-                    if (valorIzquierdo.Contains("T"))
+                    if (GeneradorAST.funcionActual != null||GeneradorAST.procedimientoActual!=null)
                     {
-                        retornar += valorIzquierdo;
+                        if (valorDerecho.Contains("T"))
+                        {
+                            retornar += valorDerecho;
+                        }
+                        if (valorIzquierdo.Contains("T"))
+                        {
+                            retornar += valorIzquierdo;
+                        }
                     }
-                    if (valorDerecho.Contains("T"))
+                    else
                     {
-                        retornar += valorDerecho;
+                        if (valorIzquierdo.Contains("T"))
+                        {
+                            retornar += valorIzquierdo;
+                        }
+                        if (valorDerecho.Contains("T"))
+                        {
+                            retornar += valorDerecho;
+                        }
                     }
                     retornar += "T" + t + "= " + valorIzquierdo.Split("\n")[valorIzquierdo.Split("\n").Length - 2].Split("=")[0].Split(";")[0] + "/" + valorDerecho.Split("\n")[valorDerecho.Split("\n").Length - 2].Split("=")[0].Split(";")[0] + ";\n";
 
@@ -1494,13 +1713,27 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                 case Tipo_operacion.MODULAR:
                     valorIzquierdo = operadorIzq.traduccionCondicion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
                     valorDerecho = operadorDer.traduccionCondicion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
-                    if (valorIzquierdo.Contains("T"))
+                    if (GeneradorAST.funcionActual != null||GeneradorAST.procedimientoActual!=null)
                     {
-                        retornar += valorIzquierdo;
+                        if (valorDerecho.Contains("T"))
+                        {
+                            retornar += valorDerecho;
+                        }
+                        if (valorIzquierdo.Contains("T"))
+                        {
+                            retornar += valorIzquierdo;
+                        }
                     }
-                    if (valorDerecho.Contains("T"))
+                    else
                     {
-                        retornar += valorDerecho;
+                        if (valorIzquierdo.Contains("T"))
+                        {
+                            retornar += valorIzquierdo;
+                        }
+                        if (valorDerecho.Contains("T"))
+                        {
+                            retornar += valorDerecho;
+                        }
                     }
                     retornar += "T" + t + "= (int)" + valorIzquierdo.Split("\n")[valorIzquierdo.Split("\n").Length - 2].Split("=")[0].Split(";")[0] + "% (int)" + valorDerecho.Split("\n")[valorDerecho.Split("\n").Length - 2].Split("=")[0].Split(";")[0] + ";\n";
 
@@ -1591,15 +1824,25 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                     }
                     else
                     {
-                        if (GeneradorAST.funcionActual != null)
+                        if (GeneradorAST.funcionActual != null || GeneradorAST.procedimientoActual != null)
                         {
-                            String temp = "T" + t;
-                            temporales.AddLast("T" + t);
-                            t++;
-                            retornar += temp + "=SP+" + elemntoStack.ReferenciaStack + ";\n";
-                            retornar += "T" + t + "= Stack[(int)" + temp + "];\n";
-                            temporales.AddLast("T" + t);
-                            t++;
+                            if (elemntoStack.Fu)
+                            {
+                                String temp = "T" + t;
+                                temporales.AddLast("T" + t);
+                                t++;
+                                retornar += temp + "=SP+" + elemntoStack.ReferenciaStack + ";\n";
+                                retornar += "T" + t + "= Stack[(int)" + temp + "];\n";
+                                temporales.AddLast("T" + t);
+                                t++;
+                            }
+                            else
+                            {
+                                retornar = "T" + t + "= Stack[" + elemntoStack.ReferenciaStack + "];\n";
+                                temporales.AddLast("T" + t);
+                                t++;
+                            }
+
                             return retornar;
                         }
                         else
@@ -1610,32 +1853,362 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                             return retornar;
                         }
                     }
+                case Tipo_operacion.LLAMADAFUNCION:
+                    try
+                    {
+                        Elemento_Funcion elementoFucnion = GeneradorAST.pilaFuncion.buscar(id);
+                        if (GeneradorAST.funcionActual != null || GeneradorAST.procedimientoActual != null)
+                        {
+                            if (elementoFucnion.Funcion.GetType() == typeof(Funcion))
+                            {
+                                Funcion func = (Funcion)elementoFucnion.Funcion;
+
+                                int j = 0;
+                                LinkedList<String> parametros = new LinkedList<string>();
+                                foreach (ParametroFP par in func.Parametros)
+                                {
+                                    String valu = valores.ElementAt(j).traduccionCondicion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
+                                    String retornarParametro = "";
+                                    if (valu.Contains("T"))
+                                    {
+                                        retornarParametro += valu;
+                                    }
+                                    if (par.Tipo == Simbolo.TipoDato.STRING)
+                                    {
+                                        int refH = hp;
+                                        for (int i = 0; i < valu.Length; i++)
+                                        {
+                                            char c = valu[i];
+                                            retornarParametro += "Heap[(int)HP]=" + (int)c + ";\n";
+                                            heap.agregarHeap(new Elemento_Heap((int)c, hp, null));
+                                            retornarParametro += "HP=HP+1;\n";
+                                            hp++;
+                                        }
+                                        retornarParametro += "Heap[(int)HP]=-1;\n";
+                                        heap.agregarHeap(new Elemento_Heap(-1, hp, null));
+                                        retornarParametro += "HP=HP+1;\n";
+                                        hp++;
+                                        String temp1 = "T" + t;
+                                        temporales.AddLast(temp1);
+                                        t++;
+                                        String temp2 = "T" + t;
+                                        temporales.AddLast(temp2);
+                                        t++;
+                                        String temp3 = "T" + t;
+                                        temporales.AddLast(temp3);
+                                        t++;
+                                        retornarParametro += temp1 + "=SP+1;\n";
+                                        retornarParametro += temp2 + "=" + temp1 + "+" + (sp > 0 ? (int)(sp - 1) : 0) + ";\n";
+                                        retornarParametro += temp3 + "=" + temp2 + "+" + j + ";\n";
+                                        retornarParametro += "Stack[(int)" + temp3 + "]=" + refH + ";\n";
+                                        temporales.AddLast("T" + t);
+                                        t++;
+                                    }
+                                    else
+                                    {
+                                        String[] valores = valu.Split("\n");
+                                        String temp = valores[valores.Length - 2].Split("=")[0].Split(";")[0];
+                                        String temp1 = "T" + t;
+                                        temporales.AddLast(temp1);
+                                        t++;
+                                        String temp2 = "T" + t;
+                                        temporales.AddLast(temp2);
+                                        t++;
+                                        String temp3 = "T" + t;
+                                        temporales.AddLast(temp3);
+                                        t++;
+                                        retornarParametro += temp1 + "=SP+1;\n";
+                                        retornarParametro += temp2 + "=" + temp1 + "+" + (sp > 0 ? (int)(sp - 1) : 0) + ";\n";
+                                        retornarParametro += temp3 + "=" + temp2 + "+" + j + ";\n";
+                                        retornarParametro += "Stack[(int)" + temp3 + "]=" + temp + ";\n";
+                                        temporales.AddLast("T" + t);
+                                        t++;
+                                    }
+                                    parametros.AddLast(retornarParametro);
+                                    j++;
+                                }
+                                for (int i = parametros.Count - 1; i >= 0; i--)
+                                {
+                                    retornar += parametros.ElementAt(i);
+                                }
+                                retornar += "SP=SP+1;\nSP=SP+" + (sp > 0 ? (int)(sp - 1) : 0) + ";\n";
+                                retornar += id.ToLower() + "();\n";
+                                String t2 = "T" + t;
+                                temporales.AddLast("T" + t);
+                                t++;
+                                retornar += t2 + "=SP+" + func.Parametros.Count + ";\n";
+                                retornar += "SP=SP-1;\nSP=SP-" + (sp > 0 ? (int)(sp - 1) : 0) + ";\n";
+                                retornar += "T" + t + "=Stack[(int)" + t2 + "];\n";
+                                temporales.AddLast("T" + t);
+                                t++;
+                            }
+                            else if (elementoFucnion.Funcion.GetType() == typeof(Procedimiento))
+                            {
+                                Procedimiento func = (Procedimiento)elementoFucnion.Funcion;
+
+                                int j = 0;
+                                LinkedList<String> parametros = new LinkedList<string>();
+                                foreach (ParametroFP par in func.Parametros)
+                                {
+                                    String valu = valores.ElementAt(j).traduccionCondicion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
+                                    String retornarParametro = "";
+                                    if (valu.Contains("T"))
+                                    {
+                                        retornarParametro += valu;
+                                    }
+                                    if (par.Tipo == Simbolo.TipoDato.STRING)
+                                    {
+                                        int refH = hp;
+                                        for (int i = 0; i < valu.Length; i++)
+                                        {
+                                            char c = valu[i];
+                                            retornar += "Heap[(int)HP]=" + (int)c + ";\n";
+                                            heap.agregarHeap(new Elemento_Heap((int)c, hp, null));
+                                            retornar += "HP=HP+1;\n";
+                                            hp++;
+                                        }
+                                        retornar += "Heap[(int)HP]=-1;\n";
+                                        heap.agregarHeap(new Elemento_Heap(-1, hp, null));
+                                        retornar += "HP=HP+1;\n";
+                                        hp++;
+                                        String temp1 = "T" + t;
+                                        temporales.AddLast(temp1);
+                                        t++;
+                                        String temp2 = "T" + t;
+                                        temporales.AddLast(temp2);
+                                        t++;
+                                        String temp3 = "T" + t;
+                                        temporales.AddLast(temp3);
+                                        t++;
+                                        retornar += temp1 + "=SP+1;\n";
+                                        retornar += temp2 + "=" + temp1 + "+" + (sp > 0 ? (int)(sp - 1) : 0) + ";\n";
+                                        retornar += temp3 + "=" + temp2 + "+" + j + ";\n";
+                                        retornar += "Stack[(int)" + temp3 + "]=" + refH + ";\n";
+                                        temporales.AddLast("T" + t);
+                                        t++;
+                                    }
+                                    else
+                                    {
+                                        String[] valores = valu.Split("\n");
+                                        String temp = valores[valores.Length - 2].Split("=")[0].Split(";")[0];
+                                        String temp1 = "T" + t;
+                                        temporales.AddLast(temp1);
+                                        t++;
+                                        String temp2 = "T" + t;
+                                        temporales.AddLast(temp2);
+                                        t++;
+                                        String temp3 = "T" + t;
+                                        temporales.AddLast(temp3);
+                                        t++;
+                                        retornarParametro += temp1 + "=SP+1;\n";
+                                        retornarParametro += temp2 + "=" + temp1 + "+" + (sp > 0 ? (int)(sp - 1) : 0) + ";\n";
+                                        retornarParametro += temp3 + "=" + temp2 + "+" + j + ";\n";
+                                        retornarParametro += "Stack[(int)" + temp3 + "]=" + temp + ";\n";
+                                        temporales.AddLast("T" + t);
+                                        t++;
+                                        parametros.AddLast(retornarParametro);
+                                    }
+                                    j++;
+                                }
+                                for (int i = parametros.Count - 1; i >= 0; i--)
+                                {
+                                    retornar += parametros.ElementAt(i);
+                                }
+                                retornar += "SP=SP+1;\nSP=SP+" + (sp > 0 ? (int)(sp - 1) : 0) + ";\n";
+                                retornar += id.ToLower() + "();\n";
+                                retornar += "SP=SP-1;\nSP=SP-" + (sp > 0 ? (int)(sp - 1) : 0) + ";\n";
+                            }
+                        }
+                        else
+                        {
+                            if (elementoFucnion.Funcion.GetType() == typeof(Funcion))
+                            {
+                                Funcion func = (Funcion)elementoFucnion.Funcion;
+                                int te = sp;
+                                String t1 = "T" + t;
+                                temporales.AddLast("T" + t);
+                                t++;
+                                retornar += t1 + "=SP;\n";
+                                int j = 0;
+                                LinkedList<String> parametros = new LinkedList<string>();
+                                retornar += "SP=SP+1;\n";
+                                foreach (ParametroFP par in func.Parametros)
+                                {
+                                    String valu = valores.ElementAt(j).traduccionCondicion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
+                                    String retornarParametro = "";
+                                    if (valu.Contains("T"))
+                                    {
+                                        retornarParametro += valu;
+                                    }
+                                    if (par.Tipo == Simbolo.TipoDato.STRING)
+                                    {
+                                        int refH = hp;
+                                        for (int i = 0; i < valu.Length; i++)
+                                        {
+                                            char c = valu[i];
+                                            retornarParametro += "Heap[(int)HP]=" + (int)c + ";\n";
+                                            heap.agregarHeap(new Elemento_Heap((int)c, hp, null));
+                                            retornarParametro += "HP=HP+1;\n";
+                                            hp++;
+                                        }
+                                        retornarParametro += "Heap[(int)HP]=-1;\n";
+                                        heap.agregarHeap(new Elemento_Heap(-1, hp, null));
+                                        retornarParametro += "HP=HP+1;\n";
+                                        hp++;
+                                        retornarParametro += "T" + t + "=SP+" + j + ";\n";
+                                        retornarParametro += "Stack[(int)T" + t + "]=" + refH + ";\n";
+                                        temporales.AddLast("T" + t);
+                                        t++;
+                                    }
+                                    else
+                                    {
+                                        String[] valores = valu.Split("\n");
+                                        String temp = valores[valores.Length - 2].Split("=")[0].Split(";")[0];
+                                        retornarParametro += "T" + t + "=SP+" + j + ";\n";
+                                        retornarParametro += "Stack[(int)T" + t + "]=" + temp + ";\n";
+                                        temporales.AddLast("T" + t);
+                                        t++;
+                                    }
+                                    parametros.AddLast(retornarParametro);
+                                    j++;
+                                }
+                                for (int i = parametros.Count - 1; i >= 0; i--)
+                                {
+                                    retornar += parametros.ElementAt(i);
+                                }
+                                retornar += id.ToLower() + "();\n";
+                                String t2 = "T" + t;
+                                temporales.AddLast("T" + t);
+                                t++;
+                                retornar += t2 + "=SP+" + func.Parametros.Count + ";\n";
+                                retornar += "SP=" + t1 + ";\n";
+                                retornar += "T" + t + "=Stack[(int)" + t2 + "];\n";
+                                temporales.AddLast("T" + t);
+                                t++;
+                            }
+                            else if (elementoFucnion.Funcion.GetType() == typeof(Procedimiento))
+                            {
+                                Procedimiento func = (Procedimiento)elementoFucnion.Funcion;
+                                int te = sp;
+                                String t1 = "T" + t;
+                                temporales.AddLast("T" + t);
+                                t++;
+                                retornar += t1 + "=SP;\n";
+                                int j = 0;
+                                LinkedList<String> parametros = new LinkedList<string>();
+                                retornar += "SP=SP+1;\n";
+                                foreach (ParametroFP par in func.Parametros)
+                                {
+                                    String valu = valores.ElementAt(j).traduccionCondicion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
+                                    String retornarParametro = "";
+                                    if (valu.Contains("T"))
+                                    {
+                                        retornar += valu;
+                                    }
+                                    if (par.Tipo == Simbolo.TipoDato.STRING)
+                                    {
+                                        int refH = hp;
+                                        for (int i = 0; i < valu.Length; i++)
+                                        {
+                                            char c = valu[i];
+                                            retornar += "Heap[(int)HP]=" + (int)c + ";\n";
+                                            heap.agregarHeap(new Elemento_Heap((int)c, hp, null));
+                                            retornar += "HP=HP+1;\n";
+                                            hp++;
+                                        }
+                                        retornar += "Heap[(int)HP]=-1;\n";
+                                        heap.agregarHeap(new Elemento_Heap(-1, hp, null));
+                                        retornar += "HP=HP+1;\n";
+                                        hp++;
+                                        retornar += "T" + t + "=SP+" + j + ";\n";
+                                        retornar += "Stack[(int)T" + t + "]=" + refH + ";\n";
+                                        temporales.AddLast("T" + t);
+                                        t++;
+                                    }
+                                    else
+                                    {
+                                        String[] valores = valu.Split("\n");
+                                        String temp = valores[valores.Length - 2].Split("=")[0].Split(";")[0];
+                                        retornarParametro += "T" + t + "=SP+" + j + ";\n";
+                                        retornarParametro += "Stack[(int)T" + t + "]=" + temp + ";\n";
+                                        temporales.AddLast("T" + t);
+                                        t++;
+                                        parametros.AddLast(retornarParametro);
+                                    }
+                                    j++;
+                                }
+                                for (int i = parametros.Count - 1; i >= 0; i--)
+                                {
+                                    retornar += parametros.ElementAt(i);
+                                }
+                                retornar += id.ToLower() + "();\n";
+                                retornar += "SP=" + t1 + ";\n";
+                            }
+                        }
+                        return retornar;
+                    }
+                    catch (Exception e)
+                    {
+                        return null;
+                    }
 
                 case Tipo_operacion.LLAMADAPROCEDIMIENTO:
                     try
                     {
                         Elemento_Funcion elementoFucnion = GeneradorAST.pilaFuncion.buscar(id);
-                        if (elementoFucnion.Funcion.GetType() == typeof(Funcion))
+                        if (GeneradorAST.funcionActual != null || GeneradorAST.procedimientoActual != null)
                         {
+                            if (elementoFucnion.Funcion.GetType() == typeof(Funcion))
+                            {
+                                Funcion func = (Funcion)elementoFucnion.Funcion;
+                                retornar += "SP=SP+1;\nSP=SP+" + (sp > 0 ? (int)(sp - 1) : 0) + ";\n";
+                                retornar += id.ToLower() + "();\n";
+                                String t2 = "T" + t;
+                                temporales.AddLast("T" + t);
+                                t++;
+                                retornar += t2 + "=SP+0;\n";
+                                retornar += "SP=SP-1;\nSP=SP-" + (sp > 0 ? (int)(sp - 1) : 0) + ";\n";
+                                retornar += "T" + t + "=Stack[(int)" + t2 + "];\n";
+                                temporales.AddLast("T" + t);
+                                t++;
+                            }
+                            else if (elementoFucnion.Funcion.GetType() == typeof(Procedimiento))
+                            {
+                                retornar += "SP=SP+1;\nSP=SP+" + (sp > 0 ? (int)(sp - 1) : 0) + ";\n";
+                                retornar += id.ToLower() + "();\n";
+                                retornar += "SP=SP-1;\nSP=SP-" + (sp > 0 ? (int)(sp - 1) : 0) + ";\n";
+                            }
+                        }
+                        else
+                        {
+                            if (elementoFucnion.Funcion.GetType() == typeof(Funcion))
+                            {
 
-                            String t1 = "T" + t;
-                            temporales.AddLast("T" + t);
-                            t++;
-                            retornar += t1 + "=SP;\nSP=SP+1;\n";
-                            retornar += id.ToLower() + "();\n";
-                            String t2 = "T" + t;
-                            temporales.AddLast("T" + t);
-                            t++;
-                            retornar += t2 + "=SP;\n";
-                            retornar += "SP=" + t1 + ";\n";
-                            retornar += "T" + t + "=Stack[(int)" + t2 + "];\n";
-                            temporales.AddLast("T" + t);
-                            t++;
+                                String t1 = "T" + t;
+                                temporales.AddLast("T" + t);
+                                t++;
+                                retornar += t1 + "=SP;\nSP=SP+1;\n";
+                                retornar += id.ToLower() + "();\n";
+                                String t2 = "T" + t;
+                                temporales.AddLast("T" + t);
+                                t++;
+                                retornar += t2 + "=SP;\n";
+                                retornar += "SP=" + t1 + ";\n";
+                                retornar += "T" + t + "=Stack[(int)" + t2 + "];\n";
+                                temporales.AddLast("T" + t);
+                                t++;
+                            }
+                            else if (elementoFucnion.Funcion.GetType() == typeof(Procedimiento))
+                            {
+                                String t1 = "T" + t;
+                                temporales.AddLast("T" + t);
+                                t++;
+                                retornar += t1 + "=SP;\nSP=SP+1;\n";
+                                retornar += id.ToLower() + "();\n";
+                                retornar += "SP=" + t1 + ";\n";
+                            }
                         }
-                        else if (elementoFucnion.Funcion.GetType() == typeof(Procedimiento))
-                        {
-                            retornar += id.ToLower() + "();\n";
-                        }
+
                         return retornar;
                     }
                     catch (Exception e)

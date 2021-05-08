@@ -5,7 +5,7 @@ using System.Text;
 
 namespace _OLC2_Proyecto1_201801229.Interfaces
 {
-    class InstruccionImprimir:Instruccion
+    class InstruccionImprimir : Instruccion
     {
         public enum TipoImprimir
         {
@@ -34,13 +34,13 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                             Object valor = dato.ejecutar(ts);
                             if (valor != null)
                             {
-                                
+
                             }
                         }
                     }
                     break;
                 case TipoImprimir.WRITELN:
-                    if (datos!=null)
+                    if (datos != null)
                     {
 
                         foreach (Operacion dato in datos)
@@ -48,7 +48,7 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                             Object valor = dato.ejecutar(ts);
                             if (valor != null)
                             {
-                                
+
                             }
                         }
                     }
@@ -91,10 +91,10 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
 
                         foreach (Operacion dato in datos)
                         {
-                            String  ret = dato.traduccion(stack,heap,temporales,ref sp, ref hp, ref t, ref l).ToString();
+                            String ret = dato.traduccion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
                             String val = dato.retornarTipo();
                             Elemento_Stack elemntoStack = stack.buscarElementoStack(val);
-                            if (elemntoStack==null)
+                            if (elemntoStack == null)
                             {
                                 val = dato.retornarTipo3();
                                 elemntoStack = stack.buscarElementoStack(val);
@@ -103,9 +103,15 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                             {
                                 if (elemntoStack.Tipo == Simbolo.TipoDato.STRING)
                                 {
-                                    if (ret.Contains("T"))
+                                    if (ret.Length > 0)
                                     {
-                                        retornar += ret;
+                                        if (ret[0].Equals("T") && ret.Length > 1)
+                                        {
+                                            if (Char.IsDigit(ret[1]))
+                                            {
+                                                retornar += ret;
+                                            }
+                                        }
                                     }
                                     retornar += "T" + t + "= SP;\n";
                                     String temp = "T" + t;
@@ -117,9 +123,15 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                                 }
                                 else if (elemntoStack.Tipo == Simbolo.TipoDato.BOOLEAN)
                                 {
-                                    if (ret.Contains("T"))
+                                    if (ret.Length > 0)
                                     {
-                                        retornar += ret;
+                                        if (ret[0].Equals("T") && ret.Length > 1)
+                                        {
+                                            if (Char.IsDigit(ret[1]))
+                                            {
+                                                retornar += ret;
+                                            }
+                                        }
                                     }
                                     retornar += "T" + t + "= SP;\n";
                                     String temp = "T" + t;
@@ -136,7 +148,18 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                             }
                             else
                             {
-                                if (ret.Contains("T"))
+                                bool vf = false;
+                                if (ret.Length > 0)
+                                {
+                                    if (ret[0].Equals("T") && ret.Length > 1)
+                                    {
+                                        if (Char.IsDigit(ret[1]))
+                                        {
+                                            vf = true;
+                                        }
+                                    }
+                                }
+                                if (vf)
                                 {
                                     retornar += ret;
                                     Operacion.Tipo_operacion op = dato.retornarTipo2();
@@ -226,10 +249,17 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                             {
                                 if (elemntoStack.Tipo == Simbolo.TipoDato.STRING)
                                 {
-                                    if (ret.Contains("T"))
+                                    if (ret.Length > 0)
                                     {
-                                        retornar += ret;
+                                        if (ret[0].Equals("T") && ret.Length > 1)
+                                        {
+                                            if (Char.IsDigit(ret[1]))
+                                            {
+                                                retornar += ret;
+                                            }
+                                        }
                                     }
+
                                     retornar += "T" + t + "= SP;\n";
                                     String temp = "T" + t;
                                     temporales.AddLast("T" + t);
@@ -240,9 +270,15 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                                 }
                                 else if (elemntoStack.Tipo == Simbolo.TipoDato.BOOLEAN)
                                 {
-                                    if (ret.Contains("T"))
+                                    if (ret.Length > 0)
                                     {
-                                        retornar += ret;
+                                        if (ret[0].Equals("T") && ret.Length > 1)
+                                        {
+                                            if (Char.IsDigit(ret[1]))
+                                            {
+                                                retornar += ret;
+                                            }
+                                        }
                                     }
                                     retornar += "T" + t + "= SP;\n";
                                     String temp = "T" + t;
@@ -259,14 +295,25 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                             }
                             else
                             {
-                                if (ret.Contains("T"))
+                                bool vf = false;
+                                if (ret.Length > 0)
+                                {
+                                    if (ret.StartsWith("T") && ret.Length > 1)
+                                    {
+                                        if (Char.IsDigit(ret[1]))
+                                        {
+                                            vf = true;
+                                        }
+                                    }
+                                }
+                                if (vf)
                                 {
                                     retornar += ret;
                                     Operacion.Tipo_operacion op = dato.retornarTipo2();
 
                                     if (op == Operacion.Tipo_operacion.SUMA || op == Operacion.Tipo_operacion.RESTA || op == Operacion.Tipo_operacion.MULTIPLICACION || op == Operacion.Tipo_operacion.MODULAR || op == Operacion.Tipo_operacion.DIVISION || op == Operacion.Tipo_operacion.NEGATIVO)
                                     {
-                                        retornar += "printf(\"%f\"," + "(float)"+ ret.Split("\n")[ret.Split("\n").Length - 2].Split("=")[0].Split(";")[0] + ");\n";
+                                        retornar += "printf(\"%f\"," + "(float)" + ret.Split("\n")[ret.Split("\n").Length - 2].Split("=")[0].Split(";")[0] + ");\n";
                                     }
                                     else
                                     {
@@ -296,12 +343,13 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                                     if (op == Operacion.Tipo_operacion.CADENA || op == Operacion.Tipo_operacion.CONCAT)
                                     {
                                         String comparar = ret.Split("\n")[0];
-                                        for (int i=0;i<comparar.Length;i++)
+                                        for (int i = 0; i < comparar.Length; i++)
                                         {
                                             char c = ret[i];
-                                            retornar += "printf(\"%c\",(char)"+(int)c+");\n";
+                                            retornar += "printf(\"%c\",(char)" + (int)c + ");\n";
                                         }
-                                    }else if (op == Operacion.Tipo_operacion.BOOLEAN)
+                                    }
+                                    else if (op == Operacion.Tipo_operacion.BOOLEAN)
                                     {
                                         String comparar = ret.Split("\n")[0];
                                         if (comparar.Equals("0"))
@@ -326,7 +374,7 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                                     }
                                 }
                             }
-                            
+
                         }
                         retornar += "printf(\"%c\",(char)10);\n";
                     }

@@ -47,7 +47,8 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
         }
         public Object traduccion(Estructura_Stack stack, Estructura_Heap heap, LinkedList<String> temporales, ref int sp, ref int hp, ref int t, ref int l)
         {
-            String retornar = "";
+            String tempoV = GeneradorAST.LV, tempoF = GeneradorAST.LF;
+            String retornar = "",retornar1="";
             String retornarCondicion = condicion.traduccionCondicion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
             
             String inicioWhile = "L" + l;
@@ -55,15 +56,6 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
             String verdadero = "", falso = "";
             retornar += inicioWhile + ":\n";
 
-
-
-            if (sentencias != null)
-            {
-                foreach (Instruccion sentencia in sentencias)
-                {
-                    retornar += sentencia.traduccion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
-                }
-            }
 
             String[] condicionNot = retornarCondicion.Split("!");
 
@@ -81,7 +73,7 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                     {
                         if (!verdadero.Equals(""))
                         {
-                            retornar += verdadero + ":\n";
+                            retornar1 += verdadero + ":\n";
                         }
                         verdadero = "L" + l;
                         l++;
@@ -91,7 +83,7 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                         {
                             if (!falso.Equals(""))
                             {
-                                retornar += falso + ":\n";
+                                retornar1 += falso + ":\n";
                             }
                             String condOr = condicionOr[j];
                             String[] lineasOR = condOr.Split("\n");
@@ -106,11 +98,11 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                                         if ((linea.Contains("==") || linea.Contains(">=") || linea.Contains("<=") || linea.Contains("!=") || linea.Contains(">") || linea.Contains("<")))
                                         {
 
-                                            retornar += "if (" + linea + ")goto " + verdadero + ";\ngoto " + falso + ";\n";
+                                            retornar1 += "if (" + linea + ")goto " + verdadero + ";\ngoto " + falso + ";\n";
                                         }
                                         else
                                         {
-                                            retornar += "if (" + linea.Split("=")[0] + ")goto " + verdadero + ";\ngoto " + falso + ";\n";
+                                            retornar1 += "if (" + linea.Split("=")[0] + ")goto " + verdadero + ";\ngoto " + falso + ";\n";
                                         }
                                     }
                                     else
@@ -124,17 +116,17 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                                         }
                                         if ((linea.Contains("==") || linea.Contains(">=") || linea.Contains("<=") || linea.Contains("!=") || linea.Contains(">") || linea.Contains("<")))
                                         {
-                                            retornar += "if (" + linea + ")goto " + tempV + ";\ngoto " + iniWhile + ";\n";
+                                            retornar1 += "if (" + linea + ")goto " + tempV + ";\ngoto " + iniWhile + ";\n";
                                         }
                                         else
                                         {
-                                            retornar += "if (" + linea.Split("=")[0] + ")goto " + tempV + ";\ngoto " + iniWhile + ";\n";
+                                            retornar1 += "if (" + linea.Split("=")[0] + ")goto " + tempV + ";\ngoto " + iniWhile + ";\n";
                                         }
                                     }
                                 }
                                 else
                                 {
-                                    retornar += linea + "\n";
+                                    retornar1 += linea + "\n";
                                 }
                             }
                         }
@@ -145,11 +137,21 @@ namespace _OLC2_Proyecto1_201801229.Interfaces
                 }
             }
 
-
             
 
-            retornar += verdadero + ":\n";
-
+            retornar1 += verdadero + ":\n";
+            GeneradorAST.LV = verdadero;
+            GeneradorAST.LF = inicioWhile;
+            if (sentencias != null)
+            {
+                foreach (Instruccion sentencia in sentencias)
+                {
+                    retornar += sentencia.traduccion(stack, heap, temporales, ref sp, ref hp, ref t, ref l).ToString();
+                }
+            }
+            retornar += retornar1;
+            GeneradorAST.LV = tempoV;
+            GeneradorAST.LF = tempoF;
             return retornar;
         }
     }
